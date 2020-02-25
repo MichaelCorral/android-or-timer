@@ -1,0 +1,67 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.michaelcorral.mvptemplate"
+        minSdkVersion 23
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            buildConfigField('String', "itunes_base_api", itunes_base_api)
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField('String', "itunes_base_api", itunes_base_api)
+        }
+    }
+}
+
+dependencies {
+    implementation androidKotlin.core
+    implementation androidKotlin.reflect
+
+    implementation androidx.appCompat
+    implementation androidx.recyclerView
+    implementation androidx.cardView
+    implementation androidx.constraintLayout
+    implementation androidx.design
+
+    testImplementation test.jUnit
+    androidTestImplementation test.testRunner
+    androidTestImplementation test.espresso
+    testImplementation test.mockito.core
+    androidTestImplementation test.mockito.android
+    androidTestImplementation test.room
+
+    implementation retrofit.core
+    implementation retrofit.converters.gson
+    implementation retrofit.converters.scalars
+
+    implementation rx.adapter
+    implementation rx.java
+    implementation rx.android
+
+    implementation glide.core
+    implementation glide.integration
+    kapt glide.kapt
+
+    implementation room.core
+    kapt room.kapt
+
+    implementation timber.core
+
+    implementation koin.core
+    implementation koin.scope
+    implementation koin.androidx
+}
