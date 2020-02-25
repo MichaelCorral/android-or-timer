@@ -7,7 +7,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.michaelcorral.mvptemplate"
+        applicationId "com.michaelcorral.ortimer"
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
@@ -15,14 +15,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        debug {
-            buildConfigField('String', "itunes_base_api", itunes_base_api)
-        }
-
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField('String', "itunes_base_api", itunes_base_api)
         }
     }
 }
@@ -36,6 +31,7 @@ dependencies {
     implementation androidx.cardView
     implementation androidx.constraintLayout
     implementation androidx.design
+    implementation androidx.media
 
     testImplementation test.jUnit
     androidTestImplementation test.testRunner

@@ -1,15 +1,7 @@
 <resources>
-    <string name="app_name">MvpTemplate</string>
+    <string name="app_name">Or Timer</string>
 
     <string name="progressbar_layout_loading">Loading…</string>
 
     <string name="all_label_placeholder">Lorem Ipsum</string>
-
-    <string name="itunes_item_content_description">Track Image</string>
-    <string name="itunes_item_track_price_label">%s %s</string>
-
-    <string name="itunesdetails_content_description_arc_shape_design">Itunes Details Arc</string>
-    <string name="itunesdetails_artwork_content_description">Art Work</string>
-
-    <string name="mainscreen_last_visited">Last Visited: %s</string>
 </resources>
