@@ -4,6 +4,6 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 
 @Database(entities = [TimeEntry::class], version = 1)
-abstract class TimeEntryDatabase : RoomDatabase() {
+abstract class OrTimerDatabase : RoomDatabase() {
     abstract fun timeEntryDao(): TimeEntryDao
 }

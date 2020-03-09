@@ -1,14 +1,14 @@
 package com.michaelcorral.ortimer.data
 
 import com.michaelcorral.ortimer.data.local.TimeEntryLocalDataSource
-import timber.log.Timber
+import io.reactivex.Single
 
 class TimeEntryRepository(
     private val localDataSource: TimeEntryLocalDataSource
 ) : TimeEntryLocalDataSource {
 
-    override fun saveTimeEntry() {
-        Timber.d("Repository: Save Time Entry")
+    override fun saveTimeEntry(description: String): Single<Long> {
+        return localDataSource.saveTimeEntry(description)
     }
 
 }

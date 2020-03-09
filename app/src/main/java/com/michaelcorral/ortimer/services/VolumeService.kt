@@ -54,8 +54,14 @@ class VolumeService : Service(), KoinComponent {
 
             override fun onAdjustVolume(direction: Int) {
                 if (direction == 0) {
-//                    Timber.d("Service: Time: ${Date().currentTime()}")
-                    repository.saveTimeEntry()
+                    repository.saveTimeEntry("")
+                        .subscribe (
+                            { response ->
+                                Timber.d("On Save Time Entry: $response")
+                            }, { error ->
+                                Timber.e(error)
+                            }
+                        )
                 }
             }
         }
