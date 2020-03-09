@@ -7,21 +7,23 @@ import android.os.IBinder
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.media.VolumeProviderCompat
+import com.michaelcorral.ortimer.data.TimeEntryRepository
+import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager
+import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager.Key.SessionToggleKey
+import com.michaelcorral.ortimer.utils.extensions.currentTime
+import org.koin.core.KoinComponent
+import org.koin.core.get
 import timber.log.Timber
-import java.text.SimpleDateFormat
 import java.util.*
 
-class VolumeService : Service() {
+class VolumeService : Service(), KoinComponent {
 
     private lateinit var mediaSessionCompat: MediaSessionCompat
-//    private var savedNotes: Array<Note>? = Gson().fromJson(SharedPreferencesManager.getString(NotesKey), Array<Note>::class.java)
-//    private val notes = mutableListOf<Note>()
-//    private var notesToBeSaved = mutableListOf<Note>()
 
     private val binder: IBinder = LocalBinder()
 //    private var listener: VolumeServiceListener? = null
 
-//    private val localDataSource = LocalDataSource()
+    private val repository: TimeEntryRepository = get()
 
     inner class LocalBinder : Binder() {
         val service: VolumeService
@@ -30,9 +32,8 @@ class VolumeService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        Timber.d("Service Started")
 
-//        SharedPreferencesManager.put(SessionToggleKey, true)
+        SharedPreferencesManager.put(SessionToggleKey, true)
 
         mediaSessionCompat = MediaSessionCompat(this, "VolumeService")
         mediaSessionCompat.setPlaybackState(
@@ -41,34 +42,28 @@ class VolumeService : Service() {
                     PlaybackStateCompat.STATE_PLAYING,
                     0,
                     0F
-                ) //you simulate a player which plays something.
+                )
                 .build()
         )
 
         val myVolumeProvider = object : VolumeProviderCompat(
-            VOLUME_CONTROL_RELATIVE, /*max volume*/
-            100, /*initial volume level*/
+            VOLUME_CONTROL_RELATIVE,
+            100,
             50
         ) {
 
             override fun onAdjustVolume(direction: Int) {
                 if (direction == 0) {
-                    val sdf = SimpleDateFormat("hh:mm:ss")
-                    val currentTime = sdf.format(Date())
-//                    val note = Note(time = currentTime)
-//                    notes.add(note)
-//                    notesToBeSaved = ((savedNotes?.toMutableList() ?: mutableListOf()) + notes).toMutableList()
-//                    val jsonList = Gson().toJson(notesToBeSaved)
-//                    SharedPreferencesManager.put(NotesKey, jsonList)
-//                    listener?.updateList()
-
-                    Timber.d("Service: Time: $currentTime")
+//                    Timber.d("Service: Time: ${Date().currentTime()}")
+                    repository.saveTimeEntry()
                 }
             }
         }
 
         mediaSessionCompat.setPlaybackToRemote(myVolumeProvider)
         mediaSessionCompat.isActive = true
+
+        Timber.i("Volume Service Started")
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -81,8 +76,8 @@ class VolumeService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Timber.d("Service Stopped")
-//        SharedPreferencesManager.put(SessionToggleKey, false)
+        SharedPreferencesManager.put(SessionToggleKey, false)
         mediaSessionCompat.release()
+        Timber.i("Service Stopped")
     }
 }

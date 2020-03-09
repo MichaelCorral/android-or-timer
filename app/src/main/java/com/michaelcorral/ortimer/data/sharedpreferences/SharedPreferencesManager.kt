@@ -11,8 +11,7 @@ object SharedPreferencesManager {
     // Put shared pref keys here to prevent
     // using the wrong key name (ex. typo)
     enum class Key {
-        LastVisited,
-        LastScreen
+        SessionToggleKey
     }
 
     fun initialize(context: Context) {
@@ -39,12 +38,22 @@ object SharedPreferencesManager {
             .apply()
     }
 
+    fun put(key: Key, value: Boolean) {
+        getSharedPreferencesEditor()
+            .putBoolean(key.name, value)
+            .apply()
+    }
+
     fun getString(key: Key, defaultValue: String = ""): String {
-        return sharedPreferences.getString(key.name, defaultValue)!!
+        return sharedPreferences.getString(key.name, defaultValue) ?: ""
     }
 
     fun getInt(key: Key, defaultValue: Int = 0): Int {
         return sharedPreferences.getInt(key.name, defaultValue)
+    }
+
+    fun getBoolean(key: Key, defaultValue: Boolean = false): Boolean {
+        return sharedPreferences.getBoolean(key.name, defaultValue)
     }
 
     fun remove(key: Key) {

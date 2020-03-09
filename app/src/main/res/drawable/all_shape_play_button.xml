@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="oval">
+            <size
+                android:width="@dimen/dp_56"
+                android:height="@dimen/dp_56"/>
+
+            <solid android:color="@color/colorMadison"/>
+
+        </shape>
+
+    </item >
+
+    <item
+        android:drawable="@drawable/all_icon_play_white_90dp"
+        android:height="@dimen/dp_36"
+        android:width="@dimen/dp_36"
+        android:gravity="center"/>
+
+</layer-list>

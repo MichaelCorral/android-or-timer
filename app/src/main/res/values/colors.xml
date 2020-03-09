@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#4d648d</color>
-    <color name="colorPrimaryDark">#283655</color>
-    <color name="colorAccent">#d0e1f9</color>
+    <color name="colorPrimary">@color/colorKashmirBlue</color>
+    <color name="colorPrimaryDark">@color/colorMadison</color>
+    <color name="colorAccent">@color/colorHawkesBlue</color>
 
+    <color name="colorMadison">#283655</color>
+    <color name="colorKashmirBlue">#4D648D</color>
+    <color name="colorHawkesBlue">#D0E1F9</color>
+    <color name="colorBlackRussian">#1e1f26</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
 </resources>
