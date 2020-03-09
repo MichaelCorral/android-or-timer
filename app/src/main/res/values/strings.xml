@@ -1,7 +1,17 @@
 <resources>
-    <string name="app_name">Or Timer</string>
+    <string name="app_name">OR Timer</string>
 
     <string name="progressbar_layout_loading">Loading…</string>
 
     <string name="all_label_placeholder">Lorem Ipsum</string>
+
+    <string name="mainscreen_content_description_arc_shape_design">arc shape design</string>
+    <string name="mainscreen_content_description_settings_icon">settings icon</string>
+    <string name="mainscreen_start_a_session">Start a Session</string>
+    <string name="mainscreen_content_description_timer_image">timer image</string>
+    <string name="mainscreen_content_description_sandwatch_icon">sandwatch icon</string>
+    <string name="mainscreen_no_time">No Time?</string>
+    <string name="mainscreen_add_a_time_entry_and_it_will_show_up_n_here">Add a time entry and it will show up \n here.</string>
+    <string name="mainscreen_add">Add</string>
+    <string name="mainscreen_in_session">In Session…</string>
 </resources>
