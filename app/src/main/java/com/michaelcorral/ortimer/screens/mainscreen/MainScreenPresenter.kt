@@ -5,8 +5,8 @@ class MainScreenPresenter(private var view: MainScreenContract.View?) :
 
     private var toggleSession = false
 
-    override fun setup(toggleSession: Boolean) {
-        this.toggleSession = toggleSession
+    override fun setup() {
+//        this.toggleSession = toggleSession
         view?.initializeViews()
     }
 

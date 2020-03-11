@@ -11,4 +11,7 @@ class TimeEntryRepository(
         return localDataSource.saveTimeEntry(description)
     }
 
+    override fun saveSessionState(isInSession: Boolean) {
+        localDataSource.saveSessionState(isInSession)
+    }
 }

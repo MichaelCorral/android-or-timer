@@ -1,10 +1,22 @@
 package com.michaelcorral.ortimer.services
 
-class VolumeServicePresenter(private var view: VolumeServiceContract.View?) :
-    VolumeServiceContract.Presenter {
+import com.michaelcorral.ortimer.data.TimeEntryRepository
 
-    override fun setup(toggleSession: Boolean) {
+class VolumeServicePresenter(
+    private var view: VolumeServiceContract.View?,
+    private val repository: TimeEntryRepository) : VolumeServiceContract.Presenter {
 
+    override fun setup() {
+        saveSessionState(true)
+        view?.setupMediaSessionCompat()
+    }
+
+    override fun saveTimeEntry() {
+        repository.saveTimeEntry()
+    }
+
+    override fun saveSessionState(isInSession: Boolean) {
+        repository.saveSessionState(isInSession)
     }
 
     override fun detachView() {

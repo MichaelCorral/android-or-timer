@@ -10,7 +10,7 @@ import com.michaelcorral.ortimer.R
 import com.michaelcorral.ortimer.base.BasePresenter
 import com.michaelcorral.ortimer.base.OrTimerActivity
 import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager
-import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager.Key.SessionToggleKey
+import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager.Key.SessionStateKey
 import com.michaelcorral.ortimer.services.VolumeService
 import kotlinx.android.synthetic.main.mainscreen_activity.*
 import org.koin.androidx.scope.currentScope
@@ -37,8 +37,9 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View {
     override fun onActivityReady(savedInstanceState: Bundle?, intent: Intent) {
         super.onActivityReady(savedInstanceState, intent)
 
-        val toggleSession = SharedPreferencesManager.getBoolean(SessionToggleKey)
-        presenter.setup(toggleSession)
+        val toggleSession = SharedPreferencesManager.getBoolean(SessionStateKey)
+//        presenter.setup(toggleSession)
+        presenter.setup()
     }
 
     override fun initializeViews() {

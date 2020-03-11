@@ -1,5 +1,7 @@
 package com.michaelcorral.ortimer.data.local
 
+import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager
+import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager.Key.SessionStateKey
 import com.michaelcorral.ortimer.utils.extensions.currentTime
 import com.michaelcorral.ortimer.utils.extensions.today
 import io.reactivex.Single
@@ -22,5 +24,9 @@ class TimeEntryLocalDataSourceImpl(private val timeEntryDao: TimeEntryDao) :
             .insertTimeEntry(timeEntry)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun saveSessionState(isInSession: Boolean) {
+        SharedPreferencesManager.put(SessionStateKey, isInSession)
     }
 }
