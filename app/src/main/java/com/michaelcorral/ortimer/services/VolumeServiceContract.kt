@@ -9,6 +9,7 @@ interface VolumeServiceContract {
 
         fun setupMediaSessionCompat()
         fun setupVolumeProvider(): VolumeProviderCompat
+        fun updateTimeEntries()
     }
 
     interface Presenter : BasePresenter {

@@ -17,7 +17,7 @@ class VolumeService : Service(), KoinComponent, VolumeServiceContract.View {
     private lateinit var mediaSessionCompat: MediaSessionCompat
 
     private val binder: IBinder = LocalBinder()
-//    private var listener: VolumeServiceListener? = null
+    private var listener: VolumeServiceListener? = null
 
     private val presenter: VolumeServiceContract.Presenter by inject { parametersOf(this) }
 
@@ -42,7 +42,8 @@ class VolumeService : Service(), KoinComponent, VolumeServiceContract.View {
         mediaSessionCompat.setPlaybackState(
             PlaybackStateCompat.Builder()
                 .setState(PlaybackStateCompat.STATE_PLAYING, 0, 0F)
-                .build())
+                .build()
+        )
 
         mediaSessionCompat.setPlaybackToRemote(setupVolumeProvider())
         mediaSessionCompat.isActive = true
@@ -59,14 +60,20 @@ class VolumeService : Service(), KoinComponent, VolumeServiceContract.View {
         }
     }
 
-    //    fun setCallback(listener: VolumeServiceListener) {
-//        this.listener = listener
-//    }
+    fun setCallback(listener: VolumeServiceListener) {
+        this.listener = listener
+    }
+
+    override fun updateTimeEntries() {
+        listener?.updateTimeEntries()
+    }
 
     override fun onDestroy() {
         super.onDestroy()
         presenter.saveSessionState(false)
         mediaSessionCompat.release()
+        presenter.detachView()
+        listener = null
         Timber.i("onDestroy ${this::class.qualifiedName}")
     }
 }

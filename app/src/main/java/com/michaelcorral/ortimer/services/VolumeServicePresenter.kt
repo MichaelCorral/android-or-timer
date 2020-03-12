@@ -13,6 +13,7 @@ class VolumeServicePresenter(
 
     override fun saveTimeEntry() {
         repository.saveTimeEntry()
+        view?.updateTimeEntries()
     }
 
     override fun saveSessionState(isInSession: Boolean) {

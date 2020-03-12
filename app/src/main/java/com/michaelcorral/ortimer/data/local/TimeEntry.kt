@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
 
-@Entity(tableName = "TimeEntry")
+@Entity(tableName = "Time_Entry")
 data class TimeEntry(
 
     @PrimaryKey

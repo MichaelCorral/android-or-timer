@@ -12,11 +12,12 @@ import com.michaelcorral.ortimer.base.OrTimerActivity
 import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager
 import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager.Key.SessionStateKey
 import com.michaelcorral.ortimer.services.VolumeService
+import com.michaelcorral.ortimer.services.VolumeServiceListener
 import kotlinx.android.synthetic.main.mainscreen_activity.*
 import org.koin.androidx.scope.currentScope
 import org.koin.core.parameter.parametersOf
 
-class MainScreenActivity : OrTimerActivity(), MainScreenContract.View {
+class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeServiceListener {
 
     private val presenter: MainScreenContract.Presenter by currentScope.inject { parametersOf(this) }
 
@@ -52,6 +53,10 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View {
         }
     }
 
+    private fun initializeRecyclerView() {
+
+    }
+
     override fun startVolumeService() {
         initializeServiceConnection()
 
@@ -66,7 +71,7 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View {
                 val localBinder = service as VolumeService.LocalBinder
                 volumeService = localBinder.service
                 isServiceBounded = true
-//                volumeService.setCallback(this@MainActivity)
+                volumeService.setCallback(this@MainScreenActivity)
             }
 
             override fun onServiceDisconnected(name: ComponentName) {
@@ -95,5 +100,9 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View {
     override fun toggleStopButton() {
         mainScreenTextViewStartSession.text = getString(R.string.mainscreen_start_a_session)
         mainScreenButtonPlay.background = getDrawable(R.drawable.all_shape_play_button)
+    }
+
+    override fun updateTimeEntries() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
