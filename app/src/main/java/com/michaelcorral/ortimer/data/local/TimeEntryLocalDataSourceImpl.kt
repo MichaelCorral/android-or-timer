@@ -7,21 +7,24 @@ import com.michaelcorral.ortimer.utils.extensions.today
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import java.util.*
 
 class TimeEntryLocalDataSourceImpl(private val timeEntryDao: TimeEntryDao) :
     TimeEntryLocalDataSource {
 
-    override fun saveTimeEntry(description: String): Single<Long> {
-        val timeEntry = TimeEntry(
-            id = UUID.randomUUID().toString(),
-            description = description,
-            timeEntry = Date().currentTime(),
-            dateCreated = Date().today()
-        )
-
+    override fun saveTimeEntry(timeEntry: TimeEntry): Single<Long> {
         return timeEntryDao
             .insertTimeEntry(timeEntry)
+            .doOnError(Timber::e)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun retrieveTimeEntries(): Single<List<TimeEntry>> {
+        return timeEntryDao
+            .queryTimeEntries()
+            .doOnError(Timber::e)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

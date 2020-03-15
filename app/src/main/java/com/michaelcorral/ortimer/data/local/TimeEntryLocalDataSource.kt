@@ -5,7 +5,8 @@ import io.reactivex.Single
 
 interface TimeEntryLocalDataSource : TimeEntryDataSource {
 
-    fun saveTimeEntry(description: String = ""): Single<Long>
+    fun saveTimeEntry(timeEntry: TimeEntry): Single<Long>
+    fun retrieveTimeEntries(): Single<List<TimeEntry>>
 
     fun saveSessionState(isInSession: Boolean)
 }

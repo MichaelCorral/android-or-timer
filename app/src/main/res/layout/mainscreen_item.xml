@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/dp_10"
     android:layout_marginStart="@dimen/dp_8"
     android:layout_marginEnd="@dimen/dp_8"
     android:layout_marginBottom="@dimen/dp_8">
@@ -18,11 +19,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/all_label_placeholder"
+            android:hint="@string/mainscreen_hint_description"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/sp_14"
+            android:layout_marginEnd="@dimen/dp_16"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/mainScreenItemTextViewTime"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/colorBlack"
+            app:layout_constraintStart_toStartOf="@+id/mainScreenItemTextViewDescription"
+            app:layout_constraintEnd_toEndOf="@+id/mainScreenItemTextViewDescription"
+            app:layout_constraintTop_toBottomOf="@+id/mainScreenItemTextViewDescription"/>
 
         <TextView
             android:id="@+id/mainScreenItemTextViewTime"

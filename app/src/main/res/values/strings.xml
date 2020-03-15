@@ -14,4 +14,5 @@
     <string name="mainscreen_add_a_time_entry_and_it_will_show_up_n_here">Add a time entry and it will show up \n here.</string>
     <string name="mainscreen_add">Add</string>
     <string name="mainscreen_in_session">In Session…</string>
+    <string name="mainscreen_hint_description">Description</string>
 </resources>

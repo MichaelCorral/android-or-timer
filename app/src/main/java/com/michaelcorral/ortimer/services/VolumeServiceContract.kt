@@ -2,6 +2,7 @@ package com.michaelcorral.ortimer.services
 
 import androidx.media.VolumeProviderCompat
 import com.michaelcorral.ortimer.base.BasePresenter
+import com.michaelcorral.ortimer.data.local.TimeEntry
 
 interface VolumeServiceContract {
 
@@ -9,7 +10,7 @@ interface VolumeServiceContract {
 
         fun setupMediaSessionCompat()
         fun setupVolumeProvider(): VolumeProviderCompat
-        fun updateTimeEntries()
+        fun addTimeEntry(timeEntry: TimeEntry)
     }
 
     interface Presenter : BasePresenter {

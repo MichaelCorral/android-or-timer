@@ -6,9 +6,12 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
+import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.michaelcorral.ortimer.R
 import com.michaelcorral.ortimer.base.BasePresenter
 import com.michaelcorral.ortimer.base.OrTimerActivity
+import com.michaelcorral.ortimer.data.local.TimeEntry
 import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager
 import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager.Key.SessionStateKey
 import com.michaelcorral.ortimer.services.VolumeService
@@ -26,6 +29,8 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
     private lateinit var volumeServiceIntent: Intent
     private lateinit var volumeService: VolumeService
     private lateinit var serviceConnection: ServiceConnection
+
+    private val adapter = MainScreenAdapter()
 
     override fun getActivityLayout(): Int {
         return R.layout.mainscreen_activity
@@ -45,6 +50,7 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
 
     override fun initializeViews() {
         initializePlayButton()
+        initializeRecyclerView()
     }
 
     private fun initializePlayButton() {
@@ -54,7 +60,15 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
     }
 
     private fun initializeRecyclerView() {
+        mainScreenRecyclerView.layoutManager = LinearLayoutManager(this)
+        mainScreenRecyclerView.setHasFixedSize(true)
+        mainScreenRecyclerView.adapter = adapter
+    }
 
+    override fun displayTimeEntries(timeEntries: List<TimeEntry>) {
+        mainScreenRecyclerView.visibility = View.VISIBLE
+        mainScreenConstraintLayoutEmptyState.visibility = View.GONE
+        adapter.addTimeEntries(timeEntries)
     }
 
     override fun startVolumeService() {
@@ -62,7 +76,11 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
 
         volumeServiceIntent = Intent(this, VolumeService::class.java)
         startService(volumeServiceIntent)
-        applicationContext.bindService(volumeServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
+        applicationContext.bindService(
+            volumeServiceIntent,
+            serviceConnection,
+            Context.BIND_AUTO_CREATE
+        )
     }
 
     private fun initializeServiceConnection() {
@@ -102,7 +120,9 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
         mainScreenButtonPlay.background = getDrawable(R.drawable.all_shape_play_button)
     }
 
-    override fun updateTimeEntries() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun addTimeEntry(timeEntry: TimeEntry) {
+        mainScreenRecyclerView.visibility = View.VISIBLE
+        mainScreenConstraintLayoutEmptyState.visibility = View.GONE
+        adapter.addTimeEntry(timeEntry)
     }
 }
