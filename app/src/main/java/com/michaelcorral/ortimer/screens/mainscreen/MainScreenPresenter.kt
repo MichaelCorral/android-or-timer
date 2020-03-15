@@ -14,7 +14,14 @@ class MainScreenPresenter(
     private val compositeDisposable = CompositeDisposable()
 
     override fun setup() {
-//        this.toggleSession = toggleSession
+        // TODO: Refactor to factory or some kind of polymorphism
+        toggleSession = repository.retrieveSessionState()
+        if (toggleSession) {
+            startSession()
+        } else {
+            stopSession()
+        }
+
         view?.initializeViews()
         retrieveTimeEntries()
     }
@@ -31,7 +38,7 @@ class MainScreenPresenter(
     }
 
     private fun onRetrieveTimeEntriesFailed(throwable: Throwable) {
-
+        //TODO display error
     }
 
     override fun onPlayButtonClicked() {
@@ -44,11 +51,13 @@ class MainScreenPresenter(
     }
 
     private fun startSession() {
+        repository.saveSessionState(true)
         view?.startVolumeService()
         view?.togglePlayButton()
     }
 
     private fun stopSession() {
+        repository.saveSessionState(false)
         view?.stopVolumeService()
         view?.toggleStopButton()
     }

@@ -12,13 +12,12 @@ import com.michaelcorral.ortimer.R
 import com.michaelcorral.ortimer.base.BasePresenter
 import com.michaelcorral.ortimer.base.OrTimerActivity
 import com.michaelcorral.ortimer.data.local.TimeEntry
-import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager
-import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager.Key.SessionStateKey
 import com.michaelcorral.ortimer.services.VolumeService
 import com.michaelcorral.ortimer.services.VolumeServiceListener
 import kotlinx.android.synthetic.main.mainscreen_activity.*
 import org.koin.androidx.scope.currentScope
 import org.koin.core.parameter.parametersOf
+import timber.log.Timber
 
 class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeServiceListener {
 
@@ -30,7 +29,7 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
     private lateinit var volumeService: VolumeService
     private lateinit var serviceConnection: ServiceConnection
 
-    private val adapter = MainScreenAdapter()
+    private val adapter = MainScreenAdapter { timeEntry -> onTimeEntryClicked(timeEntry) }
 
     override fun getActivityLayout(): Int {
         return R.layout.mainscreen_activity
@@ -43,8 +42,6 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
     override fun onActivityReady(savedInstanceState: Bundle?, intent: Intent) {
         super.onActivityReady(savedInstanceState, intent)
 
-        val toggleSession = SharedPreferencesManager.getBoolean(SessionStateKey)
-//        presenter.setup(toggleSession)
         presenter.setup()
     }
 
@@ -69,6 +66,10 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
         mainScreenRecyclerView.visibility = View.VISIBLE
         mainScreenConstraintLayoutEmptyState.visibility = View.GONE
         adapter.addTimeEntries(timeEntries)
+    }
+
+    private fun onTimeEntryClicked(timeEntry: TimeEntry) {
+        Timber.d("$timeEntry")
     }
 
     override fun startVolumeService() {
