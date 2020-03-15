@@ -10,7 +10,7 @@ val mainScreenModule = module {
 
     scope(named<MainScreenActivity>()) {
         scoped<MainScreenContract.Presenter> { (view: MainScreenContract.View) ->
-            MainScreenPresenter(view)
+            MainScreenPresenter(view, get())
         }
     }
 }

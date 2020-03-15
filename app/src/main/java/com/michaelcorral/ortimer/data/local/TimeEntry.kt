@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
 
-@Entity(tableName = "TimeEntry")
+@Entity(tableName = "Time_Entry")
 data class TimeEntry(
 
     @PrimaryKey
@@ -15,8 +15,8 @@ data class TimeEntry(
     @ColumnInfo(name = "description")
     val description: String,
 
-    @ColumnInfo(name = "time_entry")
-    val timeEntry: String,
+    @ColumnInfo(name = "time")
+    val time: String,
 
     @ColumnInfo(name = "date_created")
     val dateCreated: String

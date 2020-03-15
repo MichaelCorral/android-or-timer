@@ -1,13 +1,37 @@
 package com.michaelcorral.ortimer.screens.mainscreen
 
-class MainScreenPresenter(private var view: MainScreenContract.View?) :
-    MainScreenContract.Presenter {
+import com.michaelcorral.ortimer.data.TimeEntryRepository
+import com.michaelcorral.ortimer.data.local.TimeEntry
+import io.reactivex.disposables.CompositeDisposable
+
+class MainScreenPresenter(
+    private var view: MainScreenContract.View?,
+    private val repository: TimeEntryRepository
+) : MainScreenContract.Presenter {
 
     private var toggleSession = false
 
-    override fun setup(toggleSession: Boolean) {
-        this.toggleSession = toggleSession
+    private val compositeDisposable = CompositeDisposable()
+
+    override fun setup() {
+//        this.toggleSession = toggleSession
         view?.initializeViews()
+        retrieveTimeEntries()
+    }
+
+    private fun retrieveTimeEntries() {
+        compositeDisposable.add(
+            repository.retrieveTimeEntries()
+                .subscribe(this::onRetrieveTimeEntriesSuccess, this::onRetrieveTimeEntriesFailed)
+        )
+    }
+
+    private fun onRetrieveTimeEntriesSuccess(timeEntries: List<TimeEntry>) {
+        view?.displayTimeEntries(timeEntries)
+    }
+
+    private fun onRetrieveTimeEntriesFailed(throwable: Throwable) {
+
     }
 
     override fun onPlayButtonClicked() {
@@ -31,5 +55,6 @@ class MainScreenPresenter(private var view: MainScreenContract.View?) :
 
     override fun detachView() {
         view = null
+        compositeDisposable.dispose()
     }
 }

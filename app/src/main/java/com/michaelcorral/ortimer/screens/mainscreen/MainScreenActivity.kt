@@ -6,17 +6,21 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
+import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.michaelcorral.ortimer.R
 import com.michaelcorral.ortimer.base.BasePresenter
 import com.michaelcorral.ortimer.base.OrTimerActivity
+import com.michaelcorral.ortimer.data.local.TimeEntry
 import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager
-import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager.Key.SessionToggleKey
+import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager.Key.SessionStateKey
 import com.michaelcorral.ortimer.services.VolumeService
+import com.michaelcorral.ortimer.services.VolumeServiceListener
 import kotlinx.android.synthetic.main.mainscreen_activity.*
 import org.koin.androidx.scope.currentScope
 import org.koin.core.parameter.parametersOf
 
-class MainScreenActivity : OrTimerActivity(), MainScreenContract.View {
+class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeServiceListener {
 
     private val presenter: MainScreenContract.Presenter by currentScope.inject { parametersOf(this) }
 
@@ -25,6 +29,8 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View {
     private lateinit var volumeServiceIntent: Intent
     private lateinit var volumeService: VolumeService
     private lateinit var serviceConnection: ServiceConnection
+
+    private val adapter = MainScreenAdapter()
 
     override fun getActivityLayout(): Int {
         return R.layout.mainscreen_activity
@@ -37,12 +43,14 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View {
     override fun onActivityReady(savedInstanceState: Bundle?, intent: Intent) {
         super.onActivityReady(savedInstanceState, intent)
 
-        val toggleSession = SharedPreferencesManager.getBoolean(SessionToggleKey)
-        presenter.setup(toggleSession)
+        val toggleSession = SharedPreferencesManager.getBoolean(SessionStateKey)
+//        presenter.setup(toggleSession)
+        presenter.setup()
     }
 
     override fun initializeViews() {
         initializePlayButton()
+        initializeRecyclerView()
     }
 
     private fun initializePlayButton() {
@@ -51,12 +59,28 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View {
         }
     }
 
+    private fun initializeRecyclerView() {
+        mainScreenRecyclerView.layoutManager = LinearLayoutManager(this)
+        mainScreenRecyclerView.setHasFixedSize(true)
+        mainScreenRecyclerView.adapter = adapter
+    }
+
+    override fun displayTimeEntries(timeEntries: List<TimeEntry>) {
+        mainScreenRecyclerView.visibility = View.VISIBLE
+        mainScreenConstraintLayoutEmptyState.visibility = View.GONE
+        adapter.addTimeEntries(timeEntries)
+    }
+
     override fun startVolumeService() {
         initializeServiceConnection()
 
         volumeServiceIntent = Intent(this, VolumeService::class.java)
         startService(volumeServiceIntent)
-        applicationContext.bindService(volumeServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
+        applicationContext.bindService(
+            volumeServiceIntent,
+            serviceConnection,
+            Context.BIND_AUTO_CREATE
+        )
     }
 
     private fun initializeServiceConnection() {
@@ -65,7 +89,7 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View {
                 val localBinder = service as VolumeService.LocalBinder
                 volumeService = localBinder.service
                 isServiceBounded = true
-//                volumeService.setCallback(this@MainActivity)
+                volumeService.setCallback(this@MainScreenActivity)
             }
 
             override fun onServiceDisconnected(name: ComponentName) {
@@ -94,5 +118,11 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View {
     override fun toggleStopButton() {
         mainScreenTextViewStartSession.text = getString(R.string.mainscreen_start_a_session)
         mainScreenButtonPlay.background = getDrawable(R.drawable.all_shape_play_button)
+    }
+
+    override fun addTimeEntry(timeEntry: TimeEntry) {
+        mainScreenRecyclerView.visibility = View.VISIBLE
+        mainScreenConstraintLayoutEmptyState.visibility = View.GONE
+        adapter.addTimeEntry(timeEntry)
     }
 }
