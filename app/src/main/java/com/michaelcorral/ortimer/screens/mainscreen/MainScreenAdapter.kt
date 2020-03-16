@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.michaelcorral.ortimer.R
 import com.michaelcorral.ortimer.data.local.TimeEntry
 
-class MainScreenAdapter : RecyclerView.Adapter<MainScreenAdapter.ViewHolder>() {
+class MainScreenAdapter(val onTimeEntryClicked: (TimeEntry) -> Unit) : RecyclerView.Adapter<MainScreenAdapter.ViewHolder>() {
 
     private val timeEntries = mutableListOf<TimeEntry>()
 
@@ -44,13 +45,16 @@ class MainScreenAdapter : RecyclerView.Adapter<MainScreenAdapter.ViewHolder>() {
        holder.bind(timeEntries[index])
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val description: TextView = itemView.findViewById(R.id.mainScreenItemTextViewDescription)
         private val time: TextView = itemView.findViewById(R.id.mainScreenItemTextViewTime)
+        private val container: ConstraintLayout = itemView.findViewById(R.id.mainScreenItemConstraintLayoutContainer)
 
         fun bind(timeEntry: TimeEntry) {
             description.text = timeEntry.description
             time.text = timeEntry.time
+
+            container.setOnClickListener { onTimeEntryClicked(timeEntry) }
         }
     }
 }

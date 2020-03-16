@@ -9,4 +9,5 @@ interface TimeEntryLocalDataSource : TimeEntryDataSource {
     fun retrieveTimeEntries(): Single<List<TimeEntry>>
 
     fun saveSessionState(isInSession: Boolean)
+    fun retrieveSessionState(): Boolean
 }
