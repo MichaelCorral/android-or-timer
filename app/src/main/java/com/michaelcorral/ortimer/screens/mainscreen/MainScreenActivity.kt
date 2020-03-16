@@ -47,12 +47,19 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
 
     override fun initializeViews() {
         initializePlayButton()
+        initializeAddButton()
         initializeRecyclerView()
     }
 
     private fun initializePlayButton() {
         mainScreenButtonPlay.setOnClickListener {
             presenter.onPlayButtonClicked()
+        }
+    }
+
+    private fun initializeAddButton() {
+        mainScreenButtonAdd.setOnClickListener {
+            presenter.saveTimeEntry()
         }
     }
 
@@ -125,5 +132,17 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
         mainScreenRecyclerView.visibility = View.VISIBLE
         mainScreenConstraintLayoutEmptyState.visibility = View.GONE
         adapter.addTimeEntry(timeEntry)
+    }
+
+    override fun showLoading() {
+        showLoadingDialog()
+    }
+
+    override fun hideLoading() {
+        hideLoadingDialog()
+    }
+
+    override fun showMessage(message: String) {
+        showToast(message)
     }
 }

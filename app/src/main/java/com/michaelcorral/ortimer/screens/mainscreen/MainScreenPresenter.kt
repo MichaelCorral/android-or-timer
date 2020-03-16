@@ -2,7 +2,10 @@ package com.michaelcorral.ortimer.screens.mainscreen
 
 import com.michaelcorral.ortimer.data.TimeEntryRepository
 import com.michaelcorral.ortimer.data.local.TimeEntry
+import com.michaelcorral.ortimer.utils.extensions.currentTime
+import com.michaelcorral.ortimer.utils.extensions.today
 import io.reactivex.disposables.CompositeDisposable
+import java.util.*
 
 class MainScreenPresenter(
     private var view: MainScreenContract.View?,
@@ -18,8 +21,6 @@ class MainScreenPresenter(
         toggleSession = repository.retrieveSessionState()
         if (toggleSession) {
             startSession()
-        } else {
-            stopSession()
         }
 
         view?.initializeViews()
@@ -60,6 +61,30 @@ class MainScreenPresenter(
         repository.saveSessionState(false)
         view?.stopVolumeService()
         view?.toggleStopButton()
+    }
+
+    override fun saveTimeEntry() {
+        val timeEntry = TimeEntry(
+            id = UUID.randomUUID().toString(),
+            description = "",
+            time = Date().currentTime(),
+            dateCreated = Date().today()
+        )
+
+        compositeDisposable.add(
+            repository
+                .saveTimeEntry(timeEntry)
+                .subscribe({ onSaveTimeEntrySuccess(timeEntry) }, { onSaveTimeEntryFailed() })
+        )
+    }
+
+    private fun onSaveTimeEntrySuccess(timeEntry: TimeEntry) {
+        view?.addTimeEntry(timeEntry)
+        view?.showMessage("Time Entry Added")
+    }
+
+    private fun onSaveTimeEntryFailed() {
+        view?.showMessage("Something went wrong")
     }
 
     override fun detachView() {
