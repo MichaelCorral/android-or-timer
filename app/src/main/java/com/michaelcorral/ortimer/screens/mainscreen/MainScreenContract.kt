@@ -11,8 +11,8 @@ interface MainScreenContract {
         fun initializeViews()
         fun displayTimeEntries(timeEntries: List<TimeEntry>)
         fun addTimeEntry(timeEntry: TimeEntry)
-        fun startVolumeService()
-        fun stopVolumeService()
+        fun startSession()
+        fun stopSession()
         fun togglePlayButton()
         fun toggleStopButton()
     }
