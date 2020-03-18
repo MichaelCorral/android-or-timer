@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.michaelcorral.ortimer.R
 import com.michaelcorral.ortimer.data.local.TimeEntry
 
-class MainScreenAdapter(val onTimeEntryClicked: (TimeEntry) -> Unit) : RecyclerView.Adapter<MainScreenAdapter.ViewHolder>() {
+class MainScreenAdapter(val onTimeEntryClicked: (EditedTimeEntry) -> Unit) : RecyclerView.Adapter<MainScreenAdapter.ViewHolder>() {
 
     private val timeEntries = mutableListOf<TimeEntry>()
 
@@ -21,6 +21,10 @@ class MainScreenAdapter(val onTimeEntryClicked: (TimeEntry) -> Unit) : RecyclerV
     fun addTimeEntry(timeEntry: TimeEntry) {
         timeEntries.add(timeEntry)
         notifyDataSetChanged()
+    }
+
+    fun updateTimeEntry(timeEntry: TimeEntry, index: Int) {
+        notifyItemChanged(index, timeEntry)
     }
 
     fun replaceTimeEntries(timeEntries: List<TimeEntry>) {
@@ -54,7 +58,8 @@ class MainScreenAdapter(val onTimeEntryClicked: (TimeEntry) -> Unit) : RecyclerV
             description.text = timeEntry.description
             time.text = timeEntry.time
 
-            container.setOnClickListener { onTimeEntryClicked(timeEntry) }
+            val timeEntryToBeEdited = EditedTimeEntry(timeEntry, layoutPosition)
+            container.setOnClickListener { onTimeEntryClicked(timeEntryToBeEdited) }
         }
     }
 }

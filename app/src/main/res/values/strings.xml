@@ -15,4 +15,6 @@
     <string name="mainscreen_add">Add</string>
     <string name="mainscreen_in_session">In Session…</string>
     <string name="mainscreen_hint_description">Description</string>
+    <string name="mainscreenlayoutcustomdialog_hint_description">Enter Description</string>
+    <string name="mainscreenlayoutcustomdialog_save">Save</string>
 </resources>
