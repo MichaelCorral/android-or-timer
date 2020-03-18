@@ -6,7 +6,7 @@ import org.koin.dsl.module
 
 val volumeServiceModule = module {
 
-    single<VolumeServiceContract.Presenter> { (view: VolumeServiceContract.View) ->
+    factory<VolumeServiceContract.Presenter> { (view: VolumeServiceContract.View) ->
         VolumeServicePresenter(view, get())
     }
 }

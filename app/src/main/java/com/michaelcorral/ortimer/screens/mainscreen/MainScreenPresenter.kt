@@ -20,6 +20,7 @@ class MainScreenPresenter(
         // TODO: Refactor to factory or some kind of polymorphism
         toggleSession = repository.retrieveSessionState()
         if (toggleSession) {
+            stopSession()
             startSession()
         }
 
@@ -53,13 +54,13 @@ class MainScreenPresenter(
 
     private fun startSession() {
         repository.saveSessionState(true)
-        view?.startVolumeService()
+        view?.startSession()
         view?.togglePlayButton()
     }
 
     private fun stopSession() {
         repository.saveSessionState(false)
-        view?.stopVolumeService()
+        view?.stopSession()
         view?.toggleStopButton()
     }
 

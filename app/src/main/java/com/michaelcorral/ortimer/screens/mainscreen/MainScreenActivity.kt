@@ -79,7 +79,7 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
         Timber.d("$timeEntry")
     }
 
-    override fun startVolumeService() {
+    override fun startSession() {
         initializeServiceConnection()
 
         volumeServiceIntent = Intent(this, VolumeService::class.java)
@@ -106,7 +106,7 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
         }
     }
 
-    private fun stopSession() {
+    override fun stopSession() {
         if (isServiceBounded) {
             stopService(volumeServiceIntent)
             applicationContext.unbindService(serviceConnection)
@@ -117,10 +117,6 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
     override fun togglePlayButton() {
         mainScreenTextViewStartSession.text = getString(R.string.mainscreen_in_session)
         mainScreenButtonPlay.background = getDrawable(R.drawable.all_shape_stop_button)
-    }
-
-    override fun stopVolumeService() {
-        stopService(volumeServiceIntent)
     }
 
     override fun toggleStopButton() {
