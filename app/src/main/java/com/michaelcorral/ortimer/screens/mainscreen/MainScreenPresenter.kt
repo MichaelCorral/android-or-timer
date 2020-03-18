@@ -30,7 +30,8 @@ class MainScreenPresenter(
 
     private fun retrieveTimeEntries() {
         compositeDisposable.add(
-            repository.retrieveTimeEntries()
+            repository
+                .retrieveTimeEntries()
                 .subscribe(this::onRetrieveTimeEntriesSuccess, this::onRetrieveTimeEntriesFailed)
         )
     }
@@ -86,6 +87,25 @@ class MainScreenPresenter(
 
     private fun onSaveTimeEntryFailed() {
         view?.showMessage("Something went wrong")
+    }
+
+    override fun editTimeEntry(editedTimeEntry: EditedTimeEntry) {
+        compositeDisposable.add(
+            repository
+                .editTimeEntry(editedTimeEntry.timeEntry)
+                .subscribe({ onEditTimeEntrySuccess(editedTimeEntry) }, this::onEditTimeEntryFailed)
+        )
+    }
+
+    private fun onEditTimeEntrySuccess(editedTimeEntry: EditedTimeEntry) {
+        view?.updateTimeEntry(
+            editedTimeEntry.timeEntry,
+            editedTimeEntry.index
+        )
+    }
+
+    private fun onEditTimeEntryFailed(throwable: Throwable) {
+        // TODO
     }
 
     override fun detachView() {

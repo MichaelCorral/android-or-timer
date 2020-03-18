@@ -13,7 +13,7 @@ data class TimeEntry(
     val id: String,
 
     @ColumnInfo(name = "description")
-    val description: String,
+    var description: String,
 
     @ColumnInfo(name = "time")
     val time: String,

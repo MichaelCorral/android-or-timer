@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:focusableInTouchMode="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/all_shape_radius10_color_white"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16">
+
+        <TextView
+            android:id="@+id/mainScreenLayoutCustomDialogTextViewTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/all_label_placeholder"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/sp_14"
+            android:textAlignment="textEnd"
+            android:layout_marginEnd="@dimen/dp_8"/>
+
+        <EditText
+            android:id="@+id/mainScreenLayoutCustomDialogEditTextDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/mainscreenlayoutcustomdialog_hint_description"
+            android:gravity="center"
+            android:layout_margin="@dimen/dp_16"/>
+
+        <Button
+            android:id="@+id/mainScreenLayoutCustomDialogButtonSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_16"
+            android:text="@string/mainscreenlayoutcustomdialog_save"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp_24"
+            android:background="@drawable/all_shape_radius10_color_madison" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

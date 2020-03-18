@@ -1,6 +1,7 @@
 package com.michaelcorral.ortimer.data.local
 
 import com.michaelcorral.ortimer.data.TimeEntryDataSource
+import io.reactivex.Completable
 import io.reactivex.Single
 
 interface TimeEntryLocalDataSource : TimeEntryDataSource {
@@ -10,4 +11,6 @@ interface TimeEntryLocalDataSource : TimeEntryDataSource {
 
     fun saveSessionState(isInSession: Boolean)
     fun retrieveSessionState(): Boolean
+
+    fun editTimeEntry(timeEntry: TimeEntry): Completable
 }

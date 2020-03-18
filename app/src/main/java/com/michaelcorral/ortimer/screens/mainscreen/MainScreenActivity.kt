@@ -14,10 +14,12 @@ import com.michaelcorral.ortimer.base.OrTimerActivity
 import com.michaelcorral.ortimer.data.local.TimeEntry
 import com.michaelcorral.ortimer.services.VolumeService
 import com.michaelcorral.ortimer.services.VolumeServiceListener
+import com.michaelcorral.ortimer.utils.extensions.currentTime
 import kotlinx.android.synthetic.main.mainscreen_activity.*
 import org.koin.androidx.scope.currentScope
 import org.koin.core.parameter.parametersOf
 import timber.log.Timber
+import java.util.*
 
 class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeServiceListener {
 
@@ -29,7 +31,9 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
     private lateinit var volumeService: VolumeService
     private lateinit var serviceConnection: ServiceConnection
 
-    private val adapter = MainScreenAdapter { timeEntry -> onTimeEntryClicked(timeEntry) }
+    private val adapter = MainScreenAdapter { timeEntryToBeEdited -> onTimeEntryClicked(timeEntryToBeEdited) }
+
+    private lateinit var mainScreenDialog: MainScreenCustomDialog
 
     override fun getActivityLayout(): Int {
         return R.layout.mainscreen_activity
@@ -75,8 +79,20 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
         adapter.addTimeEntries(timeEntries)
     }
 
-    private fun onTimeEntryClicked(timeEntry: TimeEntry) {
-        Timber.d("$timeEntry")
+    private fun onTimeEntryClicked(timeEntryToBeEdited: EditedTimeEntry) {
+        mainScreenDialog = MainScreenCustomDialog(
+            context = this,
+            styles = R.style.customDialogStyle,
+            editedTimeEntry = timeEntryToBeEdited,
+            onSaveClicked = { editedTimeEntry -> onSaveClicked(editedTimeEntry) }
+        )
+
+        mainScreenDialog.show()
+    }
+
+    private fun onSaveClicked(editedTimeEntry: EditedTimeEntry) {
+        mainScreenDialog.dismiss()
+        presenter.editTimeEntry(editedTimeEntry)
     }
 
     override fun startSession() {
@@ -128,6 +144,10 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
         mainScreenRecyclerView.visibility = View.VISIBLE
         mainScreenConstraintLayoutEmptyState.visibility = View.GONE
         adapter.addTimeEntry(timeEntry)
+    }
+
+    override fun updateTimeEntry(timeEntry: TimeEntry, index: Int) {
+        adapter.updateTimeEntry(timeEntry, index)
     }
 
     override fun showLoading() {

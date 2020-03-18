@@ -2,6 +2,7 @@ package com.michaelcorral.ortimer.data.local
 
 import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager
 import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager.Key.SessionStateKey
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -31,4 +32,12 @@ class TimeEntryLocalDataSourceImpl(private val timeEntryDao: TimeEntryDao) :
     }
 
     override fun retrieveSessionState(): Boolean = SharedPreferencesManager.getBoolean(SessionStateKey)
+
+    override fun editTimeEntry(timeEntry: TimeEntry): Completable {
+        return timeEntryDao
+            .updateTimeEntry(timeEntry)
+            .doOnError(Timber::e)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
 }
