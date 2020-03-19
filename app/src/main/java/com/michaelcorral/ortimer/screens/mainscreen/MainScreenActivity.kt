@@ -83,7 +83,7 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
         mainScreenDialog = MainScreenCustomDialog(
             context = this,
             styles = R.style.customDialogStyle,
-            editedTimeEntry = timeEntryToBeEdited,
+            timeEntryToBeEdited = timeEntryToBeEdited,
             onSaveClicked = { editedTimeEntry -> onSaveClicked(editedTimeEntry) }
         )
 
@@ -148,6 +148,10 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
 
     override fun updateTimeEntry(timeEntry: TimeEntry, index: Int) {
         adapter.updateTimeEntry(timeEntry, index)
+    }
+
+    override fun clearTimeEntries() {
+        adapter.clearTimeEntries()
     }
 
     override fun showLoading() {

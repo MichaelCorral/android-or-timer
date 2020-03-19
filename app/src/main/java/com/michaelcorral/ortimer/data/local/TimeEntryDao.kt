@@ -18,4 +18,7 @@ interface TimeEntryDao {
 
     @Update
     fun updateTimeEntry(timeEntry: TimeEntry): Completable
+
+    @Query("DELETE FROM Time_Entry")
+    fun deleteAllTimeEntries(): Completable
 }
