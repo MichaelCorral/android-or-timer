@@ -13,4 +13,6 @@ interface TimeEntryLocalDataSource : TimeEntryDataSource {
     fun retrieveSessionState(): Boolean
 
     fun editTimeEntry(timeEntry: TimeEntry): Completable
+
+    fun removeAllTimeEntries(): Completable
 }

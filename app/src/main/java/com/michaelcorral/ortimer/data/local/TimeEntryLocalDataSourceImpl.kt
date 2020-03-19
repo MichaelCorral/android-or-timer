@@ -40,4 +40,12 @@ class TimeEntryLocalDataSourceImpl(private val timeEntryDao: TimeEntryDao) :
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
+
+    override fun removeAllTimeEntries(): Completable {
+        return timeEntryDao
+            .deleteAllTimeEntries()
+            .doOnError(Timber::e)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
 }

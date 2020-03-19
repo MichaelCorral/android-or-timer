@@ -47,10 +47,27 @@ class MainScreenPresenter(
     override fun onPlayButtonClicked() {
         toggleSession = !toggleSession
         if (toggleSession) {
+            removeAllTimeEntries()
             startSession()
         } else {
             stopSession()
         }
+    }
+
+    private fun removeAllTimeEntries() {
+        compositeDisposable.add(
+            repository
+                .removeAllTimeEntries()
+                .subscribe({ onRemoveAllTimeEntriesSuccessful() }, this::onRemoveAllTimeEntriesFailed)
+        )
+    }
+
+    private fun onRemoveAllTimeEntriesSuccessful() {
+        view?.clearTimeEntries()
+    }
+
+    private fun onRemoveAllTimeEntriesFailed(throwable: Throwable) {
+        //TODO display error
     }
 
     private fun startSession() {
