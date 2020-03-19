@@ -140,6 +140,15 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
         mainScreenButtonPlay.background = getDrawable(R.drawable.all_shape_play_button)
     }
 
+    override fun toggleAddButton(isEnabled: Boolean) {
+        if (!isEnabled) {
+            mainScreenButtonAdd.visibility = View.INVISIBLE
+            return
+        }
+
+        mainScreenButtonAdd.visibility = View.VISIBLE
+    }
+
     override fun addTimeEntry(timeEntry: TimeEntry) {
         mainScreenRecyclerView.visibility = View.VISIBLE
         mainScreenConstraintLayoutEmptyState.visibility = View.GONE
