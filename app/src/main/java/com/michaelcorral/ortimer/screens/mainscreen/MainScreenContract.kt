@@ -17,6 +17,7 @@ interface MainScreenContract {
         fun stopSession()
         fun togglePlayButton()
         fun toggleStopButton()
+        fun toggleAddButton(isEnabled: Boolean)
     }
 
     interface Presenter : BasePresenter {

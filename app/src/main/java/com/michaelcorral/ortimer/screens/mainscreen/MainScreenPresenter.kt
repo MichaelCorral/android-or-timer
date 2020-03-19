@@ -74,12 +74,14 @@ class MainScreenPresenter(
         repository.saveSessionState(true)
         view?.startSession()
         view?.togglePlayButton()
+        view?.toggleAddButton(true)
     }
 
     private fun stopSession() {
         repository.saveSessionState(false)
         view?.stopSession()
         view?.toggleStopButton()
+        view?.toggleAddButton(false)
     }
 
     override fun saveTimeEntry() {
