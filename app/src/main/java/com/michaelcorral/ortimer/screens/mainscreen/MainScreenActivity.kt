@@ -54,6 +54,7 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
     override fun initializeViews() {
         initializePlayButton()
         initializeAddButton()
+        initializeSettingsButton()
         initializeRecyclerView()
     }
 
@@ -71,6 +72,12 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
                 onSaveClicked = { timeEntry -> onSaveClicked(timeEntry) }
             )
             mainScreenDialogAddTimeEntry.show()
+        }
+    }
+
+    private fun initializeSettingsButton() {
+        mainScreenImageViewSettings.setOnClickListener {
+
         }
     }
 
