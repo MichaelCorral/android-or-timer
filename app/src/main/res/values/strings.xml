@@ -21,4 +21,14 @@
     <string name="mainscreen_are_u_sure_u_want_to_delete">Are you sure you want to delete this entry?</string>
     <string name="mainscreen_no">No</string>
     <string name="mainscreen_yes">Yes</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="settings_content_description_timer_icon">Timer Icon</string>
+    <string name="settings_time_label">Time</string>
+    <string name="settings_content_description_about_icon">About icon</string>
+    <string name="settings_about_label">About</string>
+    <string name="about_title">About</string>
+    <string name="about_or_timer_version">OR Timer Version</string>
+    <string name="about_icons_by">Icons By</string>
+    <string name="about_icons8_url">https://icons8.com</string>
 </resources>

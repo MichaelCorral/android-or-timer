@@ -13,6 +13,7 @@ import com.michaelcorral.ortimer.R
 import com.michaelcorral.ortimer.base.BasePresenter
 import com.michaelcorral.ortimer.base.OrTimerActivity
 import com.michaelcorral.ortimer.data.local.TimeEntry
+import com.michaelcorral.ortimer.screens.settings.SettingsActivity
 import com.michaelcorral.ortimer.services.VolumeService
 import com.michaelcorral.ortimer.services.VolumeServiceListener
 import kotlinx.android.synthetic.main.mainscreen_activity.*
@@ -77,7 +78,7 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
 
     private fun initializeSettingsButton() {
         mainScreenImageViewSettings.setOnClickListener {
-
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
     }
 
