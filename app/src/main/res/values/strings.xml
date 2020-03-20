@@ -17,4 +17,8 @@
     <string name="mainscreen_hint_description">Description</string>
     <string name="mainscreenlayoutcustomdialog_hint_description">Enter Description</string>
     <string name="mainscreenlayoutcustomdialog_save">Save</string>
+    <string name="mainscreen_delete">Delete</string>
+    <string name="mainscreen_are_u_sure_u_want_to_delete">Are you sure you want to delete this entry?</string>
+    <string name="mainscreen_no">No</string>
+    <string name="mainscreen_yes">Yes</string>
 </resources>

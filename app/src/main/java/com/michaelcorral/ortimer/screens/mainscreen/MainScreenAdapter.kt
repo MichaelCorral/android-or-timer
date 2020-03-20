@@ -3,13 +3,16 @@ package com.michaelcorral.ortimer.screens.mainscreen
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.michaelcorral.ortimer.R
 import com.michaelcorral.ortimer.data.local.TimeEntry
 
-class MainScreenAdapter(val onTimeEntryClicked: (EditedTimeEntry) -> Unit) : RecyclerView.Adapter<MainScreenAdapter.ViewHolder>() {
+class MainScreenAdapter(
+    val onTimeEntryClicked: (EditedTimeEntry) -> Unit,
+    val onTimeEntryRemoved: (EditedTimeEntry) -> Unit) : RecyclerView.Adapter<MainScreenAdapter.ViewHolder>() {
 
     private val timeEntries = mutableListOf<TimeEntry>()
 
@@ -33,6 +36,11 @@ class MainScreenAdapter(val onTimeEntryClicked: (EditedTimeEntry) -> Unit) : Rec
         notifyDataSetChanged()
     }
 
+    fun removeTimeEntry(index: Int) {
+        timeEntries.removeAt(index)
+        notifyDataSetChanged()
+    }
+
     fun clearTimeEntries() {
         timeEntries.clear()
         notifyDataSetChanged()
@@ -53,6 +61,7 @@ class MainScreenAdapter(val onTimeEntryClicked: (EditedTimeEntry) -> Unit) : Rec
         private val description: TextView = itemView.findViewById(R.id.mainScreenItemTextViewDescription)
         private val time: TextView = itemView.findViewById(R.id.mainScreenItemTextViewTime)
         private val container: ConstraintLayout = itemView.findViewById(R.id.mainScreenItemConstraintLayoutContainer)
+        private val closeButton: Button = itemView.findViewById(R.id.mainScreenItemButtonClose)
 
         fun bind(timeEntry: TimeEntry) {
             description.text = timeEntry.description
@@ -60,6 +69,8 @@ class MainScreenAdapter(val onTimeEntryClicked: (EditedTimeEntry) -> Unit) : Rec
 
             val timeEntryToBeEdited = EditedTimeEntry(timeEntry, layoutPosition)
             container.setOnClickListener { onTimeEntryClicked(timeEntryToBeEdited) }
+
+            closeButton.setOnClickListener { onTimeEntryRemoved(timeEntryToBeEdited) }
         }
     }
 }

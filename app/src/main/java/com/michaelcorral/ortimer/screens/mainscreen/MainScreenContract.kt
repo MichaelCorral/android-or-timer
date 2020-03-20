@@ -13,6 +13,7 @@ interface MainScreenContract {
         fun addTimeEntry(timeEntry: TimeEntry)
         fun updateTimeEntry(timeEntry: TimeEntry, index: Int)
         fun clearTimeEntries()
+        fun removeTimeEntry(index: Int)
         fun startSession()
         fun stopSession()
         fun togglePlayButton()
@@ -25,5 +26,6 @@ interface MainScreenContract {
         fun onPlayButtonClicked()
         fun saveTimeEntry(timeEntry: TimeEntry)
         fun editTimeEntry(editedTimeEntry: EditedTimeEntry)
+        fun removeTimeEntry(timeEntryToBeRemoved: EditedTimeEntry)
     }
 }

@@ -120,6 +120,18 @@ class MainScreenPresenter(
         // TODO
     }
 
+    override fun removeTimeEntry(timeEntryToBeRemoved: EditedTimeEntry) {
+        compositeDisposable.add(
+            repository
+                .removeTimeEntry(timeEntryToBeRemoved.timeEntry)
+                .subscribe({ onRemoveTimeEntrySuccess(timeEntryToBeRemoved.index) })
+        )
+    }
+
+    private fun onRemoveTimeEntrySuccess(index: Int) {
+        view?.removeTimeEntry(index)
+    }
+
     override fun detachView() {
         view = null
         compositeDisposable.dispose()

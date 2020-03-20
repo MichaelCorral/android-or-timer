@@ -30,4 +30,8 @@ class TimeEntryRepository(
     override fun removeAllTimeEntries(): Completable {
         return localDataSource.removeAllTimeEntries()
     }
+
+    override fun removeTimeEntry(timeEntry: TimeEntry): Completable {
+        return localDataSource.removeTimeEntry(timeEntry)
+    }
 }
