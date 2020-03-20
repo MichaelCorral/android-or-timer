@@ -84,14 +84,7 @@ class MainScreenPresenter(
         view?.toggleAddButton(false)
     }
 
-    override fun saveTimeEntry() {
-        val timeEntry = TimeEntry(
-            id = UUID.randomUUID().toString(),
-            description = "",
-            time = Date().currentTime(),
-            dateCreated = Date().today()
-        )
-
+    override fun saveTimeEntry(timeEntry: TimeEntry) {
         compositeDisposable.add(
             repository
                 .saveTimeEntry(timeEntry)
