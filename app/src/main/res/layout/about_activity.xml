@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screens.settings.about.AboutActivity">
+
+    <include
+        android:id="@+id/aboutToolbarContainer"
+        layout="@layout/toolbar_layout_simple"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/aboutLinearLayoutVersionContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aboutToolbarContainer">
+
+        <TextView
+            android:id="@+id/aboutTextViewVersionLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_or_timer_version"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/sp_20"/>
+
+        <TextView
+            android:id="@+id/aboutTextViewVersion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/all_label_placeholder"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/sp_14"
+            android:layout_marginStart="@dimen/dp_8"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/aboutViewDividerVersionContainer"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorKashmirBlue"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/aboutLinearLayoutVersionContainer"/>
+
+    <LinearLayout
+        android:id="@+id/aboutLinearLayoutIconsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aboutViewDividerVersionContainer">
+
+        <TextView
+            android:id="@+id/aboutTextViewIconsLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/sp_20"
+            android:text="@string/about_icons_by"/>
+
+        <TextView
+            android:id="@+id/aboutTextViewIcons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/about_icons8_url"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/sp_14"
+            android:layout_marginStart="@dimen/dp_8" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

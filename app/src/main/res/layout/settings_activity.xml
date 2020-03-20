@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".screens.settings.SettingsActivity">
+
+    <include
+        android:id="@+id/settingsToolbarContainer"
+        layout="@layout/toolbar_layout_simple" />
+
+    <LinearLayout
+        android:id="@+id/settingsLinearLayoutTimeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settingsToolbarContainer">
+
+        <ImageView
+            android:id="@+id/settingsImageViewTimeIcon"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:src="@drawable/all_image_timer_black_96dp"
+            android:contentDescription="@string/settings_content_description_timer_icon"/>
+
+        <TextView
+            android:id="@+id/settingsTextViewTimeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_time_label"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/sp_24"
+            android:layout_marginStart="@dimen/dp_8" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/settingsViewDividerTimeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorKashmirBlue"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/settingsLinearLayoutTimeContainer"/>
+
+    <LinearLayout
+        android:id="@+id/settingsLinearLayoutAboutContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settingsViewDividerTimeContainer">
+
+        <ImageView
+            android:id="@+id/settingsImageViewAboutIcon"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:src="@drawable/all_image_about_black_96dp"
+            android:contentDescription="@string/settings_content_description_about_icon"/>
+
+        <TextView
+            android:id="@+id/settingsTextViewAboutLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_about_label"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/sp_24"
+            android:layout_marginStart="@dimen/dp_8" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
