@@ -15,4 +15,5 @@ interface TimeEntryLocalDataSource : TimeEntryDataSource {
     fun editTimeEntry(timeEntry: TimeEntry): Completable
 
     fun removeAllTimeEntries(): Completable
+    fun removeTimeEntry(timeEntry: TimeEntry): Completable
 }

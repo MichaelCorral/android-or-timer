@@ -1,9 +1,6 @@
 package com.michaelcorral.ortimer.data.local
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -21,4 +18,7 @@ interface TimeEntryDao {
 
     @Query("DELETE FROM Time_Entry")
     fun deleteAllTimeEntries(): Completable
+
+    @Delete
+    fun deleteTimeEntry(timeEntry: TimeEntry): Completable
 }

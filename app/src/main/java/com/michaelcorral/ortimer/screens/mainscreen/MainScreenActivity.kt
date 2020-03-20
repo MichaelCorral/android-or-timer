@@ -7,6 +7,7 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.michaelcorral.ortimer.R
 import com.michaelcorral.ortimer.base.BasePresenter
@@ -28,8 +29,10 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
     private lateinit var volumeService: VolumeService
     private lateinit var serviceConnection: ServiceConnection
 
-    private val adapter =
-        MainScreenAdapter { timeEntryToBeEdited -> onTimeEntryClicked(timeEntryToBeEdited) }
+    private val adapter = MainScreenAdapter(
+        onTimeEntryClicked = { timeEntryToBeEdited -> onTimeEntryClicked(timeEntryToBeEdited) },
+        onTimeEntryRemoved = { timeEntryToBeRemoved -> onTimeEntryRemoved(timeEntryToBeRemoved) }
+    )
 
     private lateinit var mainScreenDialogEditTimeEntry: MainScreenCustomDialogEditTimeEntry
     private lateinit var mainScreenDialogAddTimeEntry: MainScreenCustomDialogAddTimeEntry
@@ -92,6 +95,17 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
         )
 
         mainScreenDialogEditTimeEntry.show()
+    }
+
+    private fun onTimeEntryRemoved(timeEntryToBeRemoved: EditedTimeEntry) {
+        AlertDialog.Builder(this, R.style.AlertDialogTheme)
+            .setTitle(getString(R.string.mainscreen_delete))
+            .setMessage(getString(R.string.mainscreen_are_u_sure_u_want_to_delete))
+            .setNegativeButton(getString(R.string.mainscreen_no), null)
+            .setPositiveButton(getString(R.string.mainscreen_yes)) { _, _ ->
+                presenter.removeTimeEntry(timeEntryToBeRemoved)
+            }
+            .show()
     }
 
     private fun onSaveClicked(editedTimeEntry: EditedTimeEntry) {
@@ -171,6 +185,10 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
 
     override fun clearTimeEntries() {
         adapter.clearTimeEntries()
+    }
+
+    override fun removeTimeEntry(index: Int) {
+        adapter.removeTimeEntry(index)
     }
 
     override fun showLoading() {
