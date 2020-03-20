@@ -6,7 +6,7 @@ import android.os.Bundle
 import com.michaelcorral.ortimer.R
 import kotlinx.android.synthetic.main.mainscreen_layout_custom_dialog.*
 
-class MainScreenCustomDialog(
+class MainScreenCustomDialogEditTimeEntry(
     context: Context,
     styles: Int,
     private val timeEntryToBeEdited: EditedTimeEntry,

@@ -14,12 +14,9 @@ import com.michaelcorral.ortimer.base.OrTimerActivity
 import com.michaelcorral.ortimer.data.local.TimeEntry
 import com.michaelcorral.ortimer.services.VolumeService
 import com.michaelcorral.ortimer.services.VolumeServiceListener
-import com.michaelcorral.ortimer.utils.extensions.currentTime
 import kotlinx.android.synthetic.main.mainscreen_activity.*
 import org.koin.androidx.scope.currentScope
 import org.koin.core.parameter.parametersOf
-import timber.log.Timber
-import java.util.*
 
 class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeServiceListener {
 
@@ -31,9 +28,11 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
     private lateinit var volumeService: VolumeService
     private lateinit var serviceConnection: ServiceConnection
 
-    private val adapter = MainScreenAdapter { timeEntryToBeEdited -> onTimeEntryClicked(timeEntryToBeEdited) }
+    private val adapter =
+        MainScreenAdapter { timeEntryToBeEdited -> onTimeEntryClicked(timeEntryToBeEdited) }
 
-    private lateinit var mainScreenDialog: MainScreenCustomDialog
+    private lateinit var mainScreenDialogEditTimeEntry: MainScreenCustomDialogEditTimeEntry
+    private lateinit var mainScreenDialogAddTimeEntry: MainScreenCustomDialogAddTimeEntry
 
     override fun getActivityLayout(): Int {
         return R.layout.mainscreen_activity
@@ -63,7 +62,12 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
 
     private fun initializeAddButton() {
         mainScreenButtonAdd.setOnClickListener {
-            presenter.saveTimeEntry()
+            mainScreenDialogAddTimeEntry = MainScreenCustomDialogAddTimeEntry(
+                context = this,
+                styles = R.style.customDialogStyle,
+                onSaveClicked = { timeEntry -> onSaveClicked(timeEntry) }
+            )
+            mainScreenDialogAddTimeEntry.show()
         }
     }
 
@@ -80,21 +84,27 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
     }
 
     private fun onTimeEntryClicked(timeEntryToBeEdited: EditedTimeEntry) {
-        mainScreenDialog = MainScreenCustomDialog(
+        mainScreenDialogEditTimeEntry = MainScreenCustomDialogEditTimeEntry(
             context = this,
             styles = R.style.customDialogStyle,
             timeEntryToBeEdited = timeEntryToBeEdited,
             onSaveClicked = { editedTimeEntry -> onSaveClicked(editedTimeEntry) }
         )
 
-        mainScreenDialog.show()
+        mainScreenDialogEditTimeEntry.show()
     }
 
     private fun onSaveClicked(editedTimeEntry: EditedTimeEntry) {
-        mainScreenDialog.dismiss()
+        mainScreenDialogEditTimeEntry.dismiss()
         presenter.editTimeEntry(editedTimeEntry)
     }
 
+    private fun onSaveClicked(timeEntry: TimeEntry) {
+        mainScreenDialogAddTimeEntry.dismiss()
+        presenter.saveTimeEntry(timeEntry)
+    }
+
+    //TODO: Make this a separate object
     override fun startSession() {
         initializeServiceConnection()
 

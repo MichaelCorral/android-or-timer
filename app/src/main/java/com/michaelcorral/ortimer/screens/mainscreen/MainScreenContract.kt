@@ -23,7 +23,7 @@ interface MainScreenContract {
     interface Presenter : BasePresenter {
 
         fun onPlayButtonClicked()
-        fun saveTimeEntry()
+        fun saveTimeEntry(timeEntry: TimeEntry)
         fun editTimeEntry(editedTimeEntry: EditedTimeEntry)
     }
 }
