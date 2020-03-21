@@ -11,7 +11,8 @@ object SharedPreferencesManager {
     // Put shared pref keys here to prevent
     // using the wrong key name (ex. typo)
     enum class Key {
-        SessionStateKey
+        SessionStateKey,
+        TimePreferenceKey
     }
 
     fun initialize(context: Context) {

@@ -2,10 +2,7 @@ package com.michaelcorral.ortimer.screens.mainscreen
 
 import com.michaelcorral.ortimer.data.TimeEntryRepository
 import com.michaelcorral.ortimer.data.local.TimeEntry
-import com.michaelcorral.ortimer.utils.extensions.currentTime
-import com.michaelcorral.ortimer.utils.extensions.today
 import io.reactivex.disposables.CompositeDisposable
-import java.util.*
 
 class MainScreenPresenter(
     private var view: MainScreenContract.View?,

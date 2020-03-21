@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:background="@drawable/all_shape_radius10_color_white"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_16"
+            android:text="@string/settingslayoutcustomdialog_select_your_time_preference"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/sp_20" />
+
+        <RadioGroup
+            android:id="@+id/settingsLayoutCustomDialogRadioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_8">
+
+            <RadioButton
+                android:id="@+id/settingsLayoutCustomDialogRadioButton24Hour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:tag="24Hour"
+                android:text="@string/settingslayoutcustomdialog_24_hour_clock"
+                android:textSize="@dimen/sp_20" />
+
+            <RadioButton
+                android:id="@+id/settingsLayoutCustomDialogRadioButton12Hour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:tag="12Hour"
+                android:text="@string/settingslayoutcustomdialog_12_hour_clock"
+                android:textSize="@dimen/sp_20" />
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/settingsLayoutCustomDialogButtonSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_16"
+            android:background="@drawable/all_shape_radius10_color_madison"
+            android:text="@string/settingslayoutcustomdialog_save"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp_24" />
+
+    </LinearLayout>
+
+</LinearLayout>

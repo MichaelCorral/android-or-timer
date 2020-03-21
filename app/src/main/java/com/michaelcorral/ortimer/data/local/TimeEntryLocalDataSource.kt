@@ -16,4 +16,7 @@ interface TimeEntryLocalDataSource : TimeEntryDataSource {
 
     fun removeAllTimeEntries(): Completable
     fun removeTimeEntry(timeEntry: TimeEntry): Completable
+
+    fun saveTimePreference(is24HourClock: Boolean)
+    fun getTimePreference(): Boolean
 }
