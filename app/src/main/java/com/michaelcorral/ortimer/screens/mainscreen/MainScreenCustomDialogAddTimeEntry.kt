@@ -5,6 +5,8 @@ import android.content.Context
 import android.os.Bundle
 import com.michaelcorral.ortimer.R
 import com.michaelcorral.ortimer.data.local.TimeEntry
+import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager
+import com.michaelcorral.ortimer.data.sharedpreferences.SharedPreferencesManager.Key.TimePreferenceKey
 import com.michaelcorral.ortimer.utils.extensions.currentTime
 import com.michaelcorral.ortimer.utils.extensions.today
 import kotlinx.android.synthetic.main.mainscreen_layout_custom_dialog.*
@@ -20,7 +22,8 @@ class MainScreenCustomDialogAddTimeEntry(
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mainscreen_layout_custom_dialog)
 
-        val currentTime = Date().currentTime()
+        val timePreference = SharedPreferencesManager.getBoolean(TimePreferenceKey)
+        val currentTime = Date().currentTime(timePreference)
 
         mainScreenLayoutCustomDialogTextViewTime.text = currentTime
 

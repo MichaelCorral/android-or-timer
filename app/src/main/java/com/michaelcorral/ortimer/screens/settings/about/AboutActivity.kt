@@ -7,7 +7,7 @@ import com.michaelcorral.ortimer.R
 import com.michaelcorral.ortimer.base.BasePresenter
 import com.michaelcorral.ortimer.base.OrTimerActivity
 import kotlinx.android.synthetic.main.about_activity.*
-import kotlinx.android.synthetic.main.toolbar_layout_simple.*
+import kotlinx.android.synthetic.main.all_toolbar_layout_simple.*
 import org.koin.androidx.scope.currentScope
 import org.koin.core.parameter.parametersOf
 

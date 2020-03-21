@@ -2,20 +2,21 @@ package com.michaelcorral.ortimer.screens.settings
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.michaelcorral.ortimer.R
 import com.michaelcorral.ortimer.base.BasePresenter
 import com.michaelcorral.ortimer.base.OrTimerActivity
 import com.michaelcorral.ortimer.screens.settings.about.AboutActivity
+import com.michaelcorral.ortimer.screens.settings.dialogs.SettingsCustomDialogTimePreferencePicker
 import kotlinx.android.synthetic.main.settings_activity.*
-import kotlinx.android.synthetic.main.toolbar_layout_simple.*
 import org.koin.androidx.scope.currentScope
 import org.koin.core.parameter.parametersOf
 
 class SettingsActivity : OrTimerActivity(), SettingsContract.View {
 
     private val presenter: SettingsContract.Presenter by currentScope.inject { parametersOf(this) }
+
+    private lateinit var settingsCustomDialogTimePreferencePicker: SettingsCustomDialogTimePreferencePicker
 
     override fun getActivityLayout(): Int {
         return R.layout.settings_activity
@@ -33,6 +34,7 @@ class SettingsActivity : OrTimerActivity(), SettingsContract.View {
 
     override fun initializeViews() {
         initializeToolbar()
+        initializeTimeContainer()
         initializeAboutContainer()
     }
 
@@ -42,6 +44,17 @@ class SettingsActivity : OrTimerActivity(), SettingsContract.View {
         supportActionBar?.let { toolbar ->
             toolbar.title = getString(R.string.settings_title)
             toolbar.setDisplayHomeAsUpEnabled(true)
+        }
+    }
+
+    private fun initializeTimeContainer() {
+        settingsLinearLayoutTimeContainer.setOnClickListener {
+            settingsCustomDialogTimePreferencePicker =
+                SettingsCustomDialogTimePreferencePicker(
+                    this, R.style.customDialogStyle
+                )
+
+            settingsCustomDialogTimePreferencePicker.show()
         }
     }
 

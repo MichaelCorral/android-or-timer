@@ -27,6 +27,11 @@
     <string name="settings_time_label">Time</string>
     <string name="settings_content_description_about_icon">About icon</string>
     <string name="settings_about_label">About</string>
+    <string name="settingslayoutcustomdialog_save">Save</string>
+    <string name="settingslayoutcustomdialog_24_hour_clock">24-Hour Clock</string>
+    <string name="settingslayoutcustomdialog_12_hour_clock">12-Hour Clock</string>
+    <string name="settingslayoutcustomdialog_select_your_time_preference">Select your time preference:</string>
+
     <string name="about_title">About</string>
     <string name="about_or_timer_version">OR Timer Version</string>
     <string name="about_icons_by">Icons By</string>

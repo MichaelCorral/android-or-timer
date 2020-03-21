@@ -8,7 +8,8 @@ fun Date.today(): String {
     return dateFormatter.format(this)
 }
 
-fun Date.currentTime(): String {
-    val timeFormatter = SimpleDateFormat("hh:mm:ss", Locale.US)
+fun Date.currentTime(is24HourClock: Boolean = true): String {
+    val timePattern = if (is24HourClock) "hh:mm:ss" else "hh:mm:ss aa"
+    val timeFormatter = SimpleDateFormat(timePattern, Locale.US)
     return timeFormatter.format(this)
 }

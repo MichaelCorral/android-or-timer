@@ -20,10 +20,12 @@ class VolumeServicePresenter(
     }
 
     override fun saveTimeEntry() {
+        val timePreference = repository.getTimePreference()
+
         val timeEntry = TimeEntry(
             id = UUID.randomUUID().toString(),
             description = "",
-            time = Date().currentTime(),
+            time = Date().currentTime(timePreference),
             dateCreated = Date().today()
         )
 

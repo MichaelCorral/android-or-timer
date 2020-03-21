@@ -53,7 +53,7 @@ abstract class OrTimerActivity : AppCompatActivity() {
 
     fun showLoadingDialog() {
         builder = AlertDialog.Builder(this)
-        builder?.setView(R.layout.progressbar_layout)
+        builder?.setView(R.layout.all_progressbar_layout)
         alertDialog = builder?.create()
         alertDialog?.show()
     }

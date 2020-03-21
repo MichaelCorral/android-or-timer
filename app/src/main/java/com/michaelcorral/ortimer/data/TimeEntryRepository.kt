@@ -34,4 +34,12 @@ class TimeEntryRepository(
     override fun removeTimeEntry(timeEntry: TimeEntry): Completable {
         return localDataSource.removeTimeEntry(timeEntry)
     }
+
+    override fun saveTimePreference(is24HourClock: Boolean) {
+        localDataSource.saveTimePreference(is24HourClock)
+    }
+
+    override fun getTimePreference(): Boolean {
+        return localDataSource.getTimePreference()
+    }
 }
