@@ -7,7 +7,7 @@
     tools:context=".screens.settings.SettingsActivity">
 
     <include
-        android:id="@+id/settingsToolbarContainer"
+        android:id="@+id/settingsToolbar"
         layout="@layout/toolbar_layout_simple" />
 
     <LinearLayout
@@ -20,7 +20,7 @@
         android:layout_marginEnd="@dimen/dp_8"
         android:layout_marginBottom="@dimen/dp_16"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settingsToolbarContainer">
+        app:layout_constraintTop_toBottomOf="@+id/settingsToolbar">
 
         <ImageView
             android:id="@+id/settingsImageViewTimeIcon"
