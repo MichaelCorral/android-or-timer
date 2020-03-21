@@ -2,6 +2,7 @@ package com.michaelcorral.ortimer.screens.settings.about
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.widget.Toolbar
 import com.michaelcorral.ortimer.R
 import com.michaelcorral.ortimer.base.BasePresenter
 import com.michaelcorral.ortimer.base.OrTimerActivity
@@ -33,13 +34,12 @@ class AboutActivity : OrTimerActivity(), AboutContract.View {
     }
 
     private fun initializeToolbar() {
-        setSupportActionBar(toolbarLayoutSimple)
+        setSupportActionBar(aboutToolbar as Toolbar)
 
         supportActionBar?.let { toolbar ->
             toolbar.title = getString(R.string.about_title)
-        } ?: getString(R.string.app_name)
-
-        //TODO: Enable up button and fix toolbar title
+            toolbar.setDisplayHomeAsUpEnabled(true)
+        }
     }
 
     override fun displayOrTimerVersion(version: String) {

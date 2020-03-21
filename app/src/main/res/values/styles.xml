@@ -1,13 +1,15 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!--region Base Application Theme.-->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <!--endregion -->
 
+    <!--region Dialog Styles-->
     <style name="customDialogStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -31,5 +33,11 @@
         <item name="android:textColor">@color/colorKashmirBlue</item>
         <item name="android:textSize">@dimen/sp_16</item>
     </style>
+    <!--endregion-->
 
+    <!--region Toolbar Theme-->
+    <style name="ToolbarTheme">
+        <item name="android:colorControlNormal">@color/colorWhite</item>
+    </style>
+    <!--endregion-->
 </resources>
