@@ -11,6 +11,7 @@ interface VolumeServiceContract {
         fun setupMediaSessionCompat()
         fun setupVolumeProvider(): VolumeProviderCompat
         fun addTimeEntry(timeEntry: TimeEntry)
+        fun showMessage(message: String)
     }
 
     interface Presenter : BasePresenter {

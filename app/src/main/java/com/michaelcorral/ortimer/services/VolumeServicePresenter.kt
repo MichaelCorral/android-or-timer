@@ -1,5 +1,7 @@
 package com.michaelcorral.ortimer.services
 
+import com.michaelcorral.ortimer.constants.SOMETHING_WENT_WRONG
+import com.michaelcorral.ortimer.constants.TIME_ENTRY_ADDED
 import com.michaelcorral.ortimer.data.TimeEntryRepository
 import com.michaelcorral.ortimer.data.local.TimeEntry
 import com.michaelcorral.ortimer.utils.extensions.currentTime
@@ -37,10 +39,11 @@ class VolumeServicePresenter(
 
     private fun onSaveTimeEntrySuccess(timeEntry: TimeEntry) {
         view?.addTimeEntry(timeEntry)
+        view?.showMessage(TIME_ENTRY_ADDED)
     }
 
     private fun onSaveTimeEntryFailed() {
-        //TODO: display error
+        view?.showMessage(SOMETHING_WENT_WRONG)
     }
 
     override fun saveSessionState(isInSession: Boolean) {

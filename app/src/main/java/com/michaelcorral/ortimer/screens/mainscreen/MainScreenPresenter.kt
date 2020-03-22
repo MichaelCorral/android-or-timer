@@ -1,5 +1,9 @@
 package com.michaelcorral.ortimer.screens.mainscreen
 
+import com.michaelcorral.ortimer.constants.SOMETHING_WENT_WRONG
+import com.michaelcorral.ortimer.constants.TIME_ENTRY_ADDED
+import com.michaelcorral.ortimer.constants.TIME_ENTRY_REMOVED
+import com.michaelcorral.ortimer.constants.TIME_ENTRY_UPDATED
 import com.michaelcorral.ortimer.data.TimeEntryRepository
 import com.michaelcorral.ortimer.data.local.TimeEntry
 import io.reactivex.disposables.CompositeDisposable
@@ -29,7 +33,7 @@ class MainScreenPresenter(
         compositeDisposable.add(
             repository
                 .retrieveTimeEntries()
-                .subscribe(this::onRetrieveTimeEntriesSuccess, this::onRetrieveTimeEntriesFailed)
+                .subscribe(this::onRetrieveTimeEntriesSuccess) { onRetrieveTimeEntriesFailed() }
         )
     }
 
@@ -37,8 +41,8 @@ class MainScreenPresenter(
         view?.displayTimeEntries(timeEntries)
     }
 
-    private fun onRetrieveTimeEntriesFailed(throwable: Throwable) {
-        //TODO display error
+    private fun onRetrieveTimeEntriesFailed() {
+        view?.showMessage(SOMETHING_WENT_WRONG)
     }
 
     override fun onPlayButtonClicked() {
@@ -55,7 +59,7 @@ class MainScreenPresenter(
         compositeDisposable.add(
             repository
                 .removeAllTimeEntries()
-                .subscribe({ onRemoveAllTimeEntriesSuccessful() }, this::onRemoveAllTimeEntriesFailed)
+                .subscribe({ onRemoveAllTimeEntriesSuccessful() }, { onRemoveAllTimeEntriesFailed() })
         )
     }
 
@@ -63,8 +67,8 @@ class MainScreenPresenter(
         view?.clearTimeEntries()
     }
 
-    private fun onRemoveAllTimeEntriesFailed(throwable: Throwable) {
-        //TODO display error
+    private fun onRemoveAllTimeEntriesFailed() {
+        view?.showMessage(SOMETHING_WENT_WRONG)
     }
 
     private fun startSession() {
@@ -91,18 +95,18 @@ class MainScreenPresenter(
 
     private fun onSaveTimeEntrySuccess(timeEntry: TimeEntry) {
         view?.addTimeEntry(timeEntry)
-        view?.showMessage("Time Entry Added")
+        view?.showMessage(TIME_ENTRY_ADDED)
     }
 
     private fun onSaveTimeEntryFailed() {
-        view?.showMessage("Something went wrong")
+        view?.showMessage(SOMETHING_WENT_WRONG)
     }
 
     override fun editTimeEntry(editedTimeEntry: EditedTimeEntry) {
         compositeDisposable.add(
             repository
                 .editTimeEntry(editedTimeEntry.timeEntry)
-                .subscribe({ onEditTimeEntrySuccess(editedTimeEntry) }, this::onEditTimeEntryFailed)
+                .subscribe({ onEditTimeEntrySuccess(editedTimeEntry) }, { onEditTimeEntryFailed() })
         )
     }
 
@@ -111,22 +115,29 @@ class MainScreenPresenter(
             editedTimeEntry.timeEntry,
             editedTimeEntry.index
         )
+
+        view?.showMessage(TIME_ENTRY_UPDATED)
     }
 
-    private fun onEditTimeEntryFailed(throwable: Throwable) {
-        // TODO
+    private fun onEditTimeEntryFailed() {
+        view?.showMessage(SOMETHING_WENT_WRONG)
     }
 
     override fun removeTimeEntry(timeEntryToBeRemoved: EditedTimeEntry) {
         compositeDisposable.add(
             repository
                 .removeTimeEntry(timeEntryToBeRemoved.timeEntry)
-                .subscribe({ onRemoveTimeEntrySuccess(timeEntryToBeRemoved.index) })
+                .subscribe({ onRemoveTimeEntrySuccess(timeEntryToBeRemoved.index) }, { onRemoveTimeEntryFailed() })
         )
     }
 
     private fun onRemoveTimeEntrySuccess(index: Int) {
         view?.removeTimeEntry(index)
+        view?.showMessage(TIME_ENTRY_REMOVED)
+    }
+
+    private fun onRemoveTimeEntryFailed() {
+        view?.showMessage(SOMETHING_WENT_WRONG)
     }
 
     override fun detachView() {
