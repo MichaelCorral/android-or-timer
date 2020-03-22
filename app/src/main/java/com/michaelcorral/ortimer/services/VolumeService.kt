@@ -6,6 +6,7 @@ import android.os.Binder
 import android.os.IBinder
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.widget.Toast
 import androidx.media.VolumeProviderCompat
 import com.michaelcorral.ortimer.data.TimeEntryRepository
 import com.michaelcorral.ortimer.data.local.TimeEntry
@@ -69,6 +70,10 @@ class VolumeService : Service(), KoinComponent, VolumeServiceContract.View {
 
     override fun addTimeEntry(timeEntry: TimeEntry) {
         listener?.addTimeEntry(timeEntry)
+    }
+
+    override fun showMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroy() {

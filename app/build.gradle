@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 29
@@ -33,8 +35,6 @@ dependencies {
     implementation androidx.design
     implementation androidx.media
 
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation test.jUnit
     androidTestImplementation test.testRunner
     androidTestImplementation test.espresso
@@ -62,4 +62,7 @@ dependencies {
     implementation koin.core
     implementation koin.scope
     implementation koin.androidx
+
+    implementation firebase.analytics
+    implementation firebase.crashlytics
 }
