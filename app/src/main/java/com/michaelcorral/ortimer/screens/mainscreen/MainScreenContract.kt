@@ -10,8 +10,8 @@ interface MainScreenContract {
 
         fun initializeViews()
         fun displayTimeEntries(timeEntries: List<TimeEntry>)
-        fun addTimeEntry(timeEntry: TimeEntry)
-        fun updateTimeEntry(timeEntry: TimeEntry, index: Int)
+        fun displayTimeEntryInList(timeEntry: TimeEntry)
+        fun updateTimeEntryInList(timeEntry: TimeEntry, index: Int)
         fun clearTimeEntries()
         fun removeTimeEntry(index: Int)
         fun startSession()
@@ -24,8 +24,6 @@ interface MainScreenContract {
     interface Presenter : BasePresenter {
 
         fun onPlayButtonClicked()
-        fun saveTimeEntry(timeEntry: TimeEntry)
-        fun editTimeEntry(editedTimeEntry: EditedTimeEntry)
         fun removeTimeEntry(timeEntryToBeRemoved: EditedTimeEntry)
     }
 }
