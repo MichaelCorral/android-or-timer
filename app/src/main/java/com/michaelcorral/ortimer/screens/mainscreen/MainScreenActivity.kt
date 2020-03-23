@@ -1,21 +1,15 @@
 package com.michaelcorral.ortimer.screens.mainscreen
 
-import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
 import android.os.Bundle
-import android.os.IBinder
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.crashlytics.android.Crashlytics
 import com.michaelcorral.ortimer.R
 import com.michaelcorral.ortimer.base.BasePresenter
 import com.michaelcorral.ortimer.base.OrTimerActivity
 import com.michaelcorral.ortimer.data.local.TimeEntry
 import com.michaelcorral.ortimer.screens.settings.SettingsActivity
-import com.michaelcorral.ortimer.services.VolumeService
 import com.michaelcorral.ortimer.services.VolumeServiceListener
 import kotlinx.android.synthetic.main.mainscreen_activity.*
 import org.koin.androidx.scope.currentScope
@@ -25,11 +19,7 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
 
     private val presenter: MainScreenContract.Presenter by currentScope.inject { parametersOf(this) }
 
-    private var isServiceBounded = false
-
-    private lateinit var volumeServiceIntent: Intent
-    private lateinit var volumeService: VolumeService
-    private lateinit var serviceConnection: ServiceConnection
+    private lateinit var timerSession: TimerSession
 
     private val adapter = MainScreenAdapter(
         onTimeEntryClicked = { timeEntryToBeEdited -> onTimeEntryClicked(timeEntryToBeEdited) },
@@ -127,40 +117,17 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
         presenter.saveTimeEntry(timeEntry)
     }
 
-    //TODO: Make this a separate object
     override fun startSession() {
-        initializeServiceConnection()
-
-        volumeServiceIntent = Intent(this, VolumeService::class.java)
-        startService(volumeServiceIntent)
-        applicationContext.bindService(
-            volumeServiceIntent,
-            serviceConnection,
-            Context.BIND_AUTO_CREATE
+        timerSession = TimerSession(
+            context = this,
+            listener = this
         )
-    }
 
-    private fun initializeServiceConnection() {
-        serviceConnection = object : ServiceConnection {
-            override fun onServiceConnected(name: ComponentName, service: IBinder) {
-                val localBinder = service as VolumeService.LocalBinder
-                volumeService = localBinder.service
-                isServiceBounded = true
-                volumeService.setCallback(this@MainScreenActivity)
-            }
-
-            override fun onServiceDisconnected(name: ComponentName) {
-                stopSession()
-            }
-        }
+        timerSession.start()
     }
 
     override fun stopSession() {
-        if (isServiceBounded) {
-            stopService(volumeServiceIntent)
-            applicationContext.unbindService(serviceConnection)
-            isServiceBounded = false
-        }
+        timerSession.stop()
     }
 
     override fun togglePlayButton() {
