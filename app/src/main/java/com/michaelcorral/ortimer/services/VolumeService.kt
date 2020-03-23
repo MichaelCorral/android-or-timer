@@ -69,7 +69,7 @@ class VolumeService : Service(), KoinComponent, VolumeServiceContract.View {
     }
 
     override fun addTimeEntry(timeEntry: TimeEntry) {
-        listener?.addTimeEntry(timeEntry)
+        listener?.displayTimeEntryInList(timeEntry)
     }
 
     override fun showMessage(message: String) {

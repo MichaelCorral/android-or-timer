@@ -85,44 +85,6 @@ class MainScreenPresenter(
         view?.toggleAddButton(false)
     }
 
-    override fun saveTimeEntry(timeEntry: TimeEntry) {
-        compositeDisposable.add(
-            repository
-                .saveTimeEntry(timeEntry)
-                .subscribe({ onSaveTimeEntrySuccess(timeEntry) }, { onSaveTimeEntryFailed() })
-        )
-    }
-
-    private fun onSaveTimeEntrySuccess(timeEntry: TimeEntry) {
-        view?.addTimeEntry(timeEntry)
-        view?.showMessage(TIME_ENTRY_ADDED)
-    }
-
-    private fun onSaveTimeEntryFailed() {
-        view?.showMessage(SOMETHING_WENT_WRONG)
-    }
-
-    override fun editTimeEntry(editedTimeEntry: EditedTimeEntry) {
-        compositeDisposable.add(
-            repository
-                .editTimeEntry(editedTimeEntry.timeEntry)
-                .subscribe({ onEditTimeEntrySuccess(editedTimeEntry) }, { onEditTimeEntryFailed() })
-        )
-    }
-
-    private fun onEditTimeEntrySuccess(editedTimeEntry: EditedTimeEntry) {
-        view?.updateTimeEntry(
-            editedTimeEntry.timeEntry,
-            editedTimeEntry.index
-        )
-
-        view?.showMessage(TIME_ENTRY_UPDATED)
-    }
-
-    private fun onEditTimeEntryFailed() {
-        view?.showMessage(SOMETHING_WENT_WRONG)
-    }
-
     override fun removeTimeEntry(timeEntryToBeRemoved: EditedTimeEntry) {
         compositeDisposable.add(
             repository

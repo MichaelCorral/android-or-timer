@@ -9,6 +9,8 @@ import com.michaelcorral.ortimer.R
 import com.michaelcorral.ortimer.base.BasePresenter
 import com.michaelcorral.ortimer.base.OrTimerActivity
 import com.michaelcorral.ortimer.data.local.TimeEntry
+import com.michaelcorral.ortimer.screens.mainscreen.dialogs.addtimeentry.MainScreenDialogAddTimeEntry
+import com.michaelcorral.ortimer.screens.mainscreen.dialogs.edittimeentry.MainScreenDialogEditTimeEntry
 import com.michaelcorral.ortimer.screens.settings.SettingsActivity
 import com.michaelcorral.ortimer.services.VolumeServiceListener
 import kotlinx.android.synthetic.main.mainscreen_activity.*
@@ -26,8 +28,8 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
         onTimeEntryRemoved = { timeEntryToBeRemoved -> onTimeEntryRemoved(timeEntryToBeRemoved) }
     )
 
-    private lateinit var mainScreenDialogEditTimeEntry: MainScreenCustomDialogEditTimeEntry
-    private lateinit var mainScreenDialogAddTimeEntry: MainScreenCustomDialogAddTimeEntry
+    private lateinit var mainScreenDialogEditTimeEntry: MainScreenDialogEditTimeEntry
+    private lateinit var mainScreenDialogAddTimeEntry: MainScreenDialogAddTimeEntry
 
     override fun getActivityLayout(): Int {
         return R.layout.mainscreen_activity
@@ -44,32 +46,27 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
     }
 
     override fun initializeViews() {
-        initializePlayButton()
-        initializeAddButton()
         initializeSettingsButton()
+        initializePlayButton()
         initializeRecyclerView()
+        initializeAddButton()
     }
 
-    private fun initializePlayButton() {
-        mainScreenButtonPlay.setOnClickListener {
-            presenter.onPlayButtonClicked()
-        }
-    }
-
-    private fun initializeAddButton() {
-        mainScreenButtonAdd.setOnClickListener {
-            mainScreenDialogAddTimeEntry = MainScreenCustomDialogAddTimeEntry(
-                context = this,
-                styles = R.style.customDialogStyle,
-                onSaveClicked = { timeEntry -> onSaveClicked(timeEntry) }
-            )
-            mainScreenDialogAddTimeEntry.show()
-        }
+    override fun displayTimeEntries(timeEntries: List<TimeEntry>) {
+        mainScreenRecyclerView.visibility = View.VISIBLE
+        mainScreenConstraintLayoutEmptyState.visibility = View.GONE
+        adapter.addTimeEntries(timeEntries)
     }
 
     private fun initializeSettingsButton() {
         mainScreenImageViewSettings.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
+        }
+    }
+
+    private fun initializePlayButton() {
+        mainScreenButtonPlay.setOnClickListener {
+            presenter.onPlayButtonClicked()
         }
     }
 
@@ -79,19 +76,28 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
         mainScreenRecyclerView.adapter = adapter
     }
 
-    override fun displayTimeEntries(timeEntries: List<TimeEntry>) {
-        mainScreenRecyclerView.visibility = View.VISIBLE
-        mainScreenConstraintLayoutEmptyState.visibility = View.GONE
-        adapter.addTimeEntries(timeEntries)
+    private fun initializeAddButton() {
+        mainScreenButtonAdd.setOnClickListener {
+            mainScreenDialogAddTimeEntry =
+                MainScreenDialogAddTimeEntry(
+                    context = this,
+                    styles = R.style.customDialogStyle,
+                    displayTimeEntryInList = { timeEntry -> displayTimeEntryInList(timeEntry) }
+                )
+            mainScreenDialogAddTimeEntry.show()
+        }
     }
 
     private fun onTimeEntryClicked(timeEntryToBeEdited: EditedTimeEntry) {
-        mainScreenDialogEditTimeEntry = MainScreenCustomDialogEditTimeEntry(
-            context = this,
-            styles = R.style.customDialogStyle,
-            timeEntryToBeEdited = timeEntryToBeEdited,
-            onSaveClicked = { editedTimeEntry -> onSaveClicked(editedTimeEntry) }
-        )
+        mainScreenDialogEditTimeEntry =
+            MainScreenDialogEditTimeEntry(
+                context = this,
+                styles = R.style.customDialogStyle,
+                timeEntryToBeEdited = timeEntryToBeEdited,
+                updateTimeEntryInList = { editedTimeEntry, index ->
+                    updateTimeEntryInList(editedTimeEntry, index)
+                }
+            )
 
         mainScreenDialogEditTimeEntry.show()
     }
@@ -105,16 +111,6 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
                 presenter.removeTimeEntry(timeEntryToBeRemoved)
             }
             .show()
-    }
-
-    private fun onSaveClicked(editedTimeEntry: EditedTimeEntry) {
-        mainScreenDialogEditTimeEntry.dismiss()
-        presenter.editTimeEntry(editedTimeEntry)
-    }
-
-    private fun onSaveClicked(timeEntry: TimeEntry) {
-        mainScreenDialogAddTimeEntry.dismiss()
-        presenter.saveTimeEntry(timeEntry)
     }
 
     override fun startSession() {
@@ -149,13 +145,13 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
         mainScreenButtonAdd.visibility = View.VISIBLE
     }
 
-    override fun addTimeEntry(timeEntry: TimeEntry) {
+    override fun displayTimeEntryInList(timeEntry: TimeEntry) {
         mainScreenRecyclerView.visibility = View.VISIBLE
         mainScreenConstraintLayoutEmptyState.visibility = View.GONE
         adapter.addTimeEntry(timeEntry)
     }
 
-    override fun updateTimeEntry(timeEntry: TimeEntry, index: Int) {
+    override fun updateTimeEntryInList(timeEntry: TimeEntry, index: Int) {
         adapter.updateTimeEntry(timeEntry, index)
     }
 

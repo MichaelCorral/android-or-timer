@@ -12,7 +12,6 @@ interface SettingsCustomDialogTimePreferencePickerContract {
     interface Presenter {
 
         fun setup()
-        fun detachView()
 
         fun saveTimePreference(timePreference: String)
     }
