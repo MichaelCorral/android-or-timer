@@ -154,7 +154,9 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
 
     private fun initializeVolumeService() {
         volumeServiceIntent = Intent(this, VolumeService::class.java)
-        startService(volumeServiceIntent)
+        val startIntent = Intent(this, VolumeService::class.java)
+        startIntent.action = "START"
+        startService(startIntent)
         applicationContext.bindService(
             volumeServiceIntent,
             serviceConnection,
@@ -163,10 +165,19 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
     }
 
     override fun stopSession() {
+        val stopIntent = Intent(this, VolumeService::class.java)
+        stopIntent.action = "STOP"
+        Timber.d("Stop Session")
         if (isServiceBounded) {
-            stopService(volumeServiceIntent)
+            Timber.d("Stop Session bounded")
             applicationContext.unbindService(serviceConnection)
             isServiceBounded = false
+            stopService(volumeServiceIntent)
+            startService(stopIntent)
+        } else {
+            Timber.d("Stop Service")
+            stopService(Intent(this, VolumeService::class.java))
+            startService(stopIntent)
         }
     }
 
@@ -207,5 +218,16 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
 
     override fun showMessage(message: String) {
         showToast(message)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        //TODO REFACTOR THIS SHIT
+        if (isServiceBounded) {
+            Timber.d("Stop Session bounded")
+            applicationContext.unbindService(serviceConnection)
+            isServiceBounded = false
+        }
     }
 }

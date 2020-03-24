@@ -23,6 +23,8 @@ class MainScreenPresenter(
         if (toggleSession) {
 //            stopSession()
             startSession()
+//            view?.togglePlayButton()
+//            view?.toggleAddButton(true)
         }
 
         view?.initializeViews()

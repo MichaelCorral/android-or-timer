@@ -7,11 +7,11 @@ import android.os.IBinder
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
 import androidx.media.VolumeProviderCompat
-import com.michaelcorral.ortimer.data.TimeEntryRepository
+import com.michaelcorral.ortimer.R
 import com.michaelcorral.ortimer.data.local.TimeEntry
 import org.koin.core.KoinComponent
-import org.koin.core.get
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 import timber.log.Timber
@@ -41,6 +41,32 @@ class VolumeService : Service(), KoinComponent, VolumeServiceContract.View {
         Timber.i("onCreate ${this::class.qualifiedName}")
     }
 
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (intent?.action == "START") {
+            Timber.d("Start intent")
+            setupMediaSessionCompat()
+            val notification = NotificationCompat.Builder(this, "OR TIMER CHANNEL ID")
+                .setContentTitle("OR Timer")
+                .setContentText("HEY")
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .build()
+
+            startForeground(1, notification)
+        }
+
+        else if (intent?.action == "STOP") {
+            Timber.d("Stop intent")
+            presenter.saveSessionState(false)
+            mediaSessionCompat.release()
+            presenter.detachView()
+            listener = null
+            stopForeground(true)
+            stopSelf()
+        }
+
+        return START_STICKY
+    }
+
     override fun setupMediaSessionCompat() {
         mediaSessionCompat = MediaSessionCompat(this, this::class.qualifiedName)
         mediaSessionCompat.setPlaybackState(
@@ -55,9 +81,11 @@ class VolumeService : Service(), KoinComponent, VolumeServiceContract.View {
 
     override fun setupVolumeProvider(): VolumeProviderCompat {
         return object : VolumeProviderCompat(
-            VOLUME_CONTROL_RELATIVE, 100, 50) {
+            VOLUME_CONTROL_RELATIVE, 100, 50
+        ) {
             override fun onAdjustVolume(direction: Int) {
                 if (direction == 0) {
+                    Timber.d("Save Time Entry")
                     presenter.saveTimeEntry()
                 }
             }
