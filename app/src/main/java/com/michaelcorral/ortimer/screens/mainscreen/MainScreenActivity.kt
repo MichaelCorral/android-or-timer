@@ -1,7 +1,11 @@
 package com.michaelcorral.ortimer.screens.mainscreen
 
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,16 +16,21 @@ import com.michaelcorral.ortimer.data.local.TimeEntry
 import com.michaelcorral.ortimer.screens.mainscreen.dialogs.addtimeentry.MainScreenDialogAddTimeEntry
 import com.michaelcorral.ortimer.screens.mainscreen.dialogs.edittimeentry.MainScreenDialogEditTimeEntry
 import com.michaelcorral.ortimer.screens.settings.SettingsActivity
+import com.michaelcorral.ortimer.services.VolumeService
 import com.michaelcorral.ortimer.services.VolumeServiceListener
 import kotlinx.android.synthetic.main.mainscreen_activity.*
 import org.koin.androidx.scope.currentScope
 import org.koin.core.parameter.parametersOf
+import timber.log.Timber
 
 class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeServiceListener {
 
     private val presenter: MainScreenContract.Presenter by currentScope.inject { parametersOf(this) }
 
-    private lateinit var timerSession: TimerSession
+    private var isServiceBounded = false
+    private lateinit var volumeServiceIntent: Intent
+    private lateinit var volumeService: VolumeService
+    private lateinit var serviceConnection: ServiceConnection
 
     private val adapter = MainScreenAdapter(
         onTimeEntryClicked = { timeEntryToBeEdited -> onTimeEntryClicked(timeEntryToBeEdited) },
@@ -113,19 +122,6 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
             .show()
     }
 
-    override fun startSession() {
-        timerSession = TimerSession(
-            context = this,
-            listener = this
-        )
-
-        timerSession.start()
-    }
-
-    override fun stopSession() {
-        timerSession.stop()
-    }
-
     override fun togglePlayButton() {
         mainScreenTextViewStartSession.text = getString(R.string.mainscreen_in_session)
         mainScreenButtonPlay.background = getDrawable(R.drawable.all_shape_stop_button)
@@ -134,6 +130,44 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
     override fun toggleStopButton() {
         mainScreenTextViewStartSession.text = getString(R.string.mainscreen_start_a_session)
         mainScreenButtonPlay.background = getDrawable(R.drawable.all_shape_play_button)
+    }
+
+    override fun startSession() {
+        initializeServiceConnection()
+        initializeVolumeService()
+    }
+
+    private fun initializeServiceConnection() {
+        serviceConnection = object : ServiceConnection {
+            override fun onServiceConnected(name: ComponentName, service: IBinder) {
+                val localBinder = service as VolumeService.LocalBinder
+                volumeService = localBinder.service
+                isServiceBounded = true
+                volumeService.setCallback(this@MainScreenActivity)
+            }
+
+            override fun onServiceDisconnected(name: ComponentName) {
+                stopSession()
+            }
+        }
+    }
+
+    private fun initializeVolumeService() {
+        volumeServiceIntent = Intent(this, VolumeService::class.java)
+        startService(volumeServiceIntent)
+        applicationContext.bindService(
+            volumeServiceIntent,
+            serviceConnection,
+            Context.BIND_AUTO_CREATE
+        )
+    }
+
+    override fun stopSession() {
+        if (isServiceBounded) {
+            stopService(volumeServiceIntent)
+            applicationContext.unbindService(serviceConnection)
+            isServiceBounded = false
+        }
     }
 
     override fun toggleAddButton(isEnabled: Boolean) {
