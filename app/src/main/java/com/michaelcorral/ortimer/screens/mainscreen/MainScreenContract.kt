@@ -16,6 +16,7 @@ interface MainScreenContract {
         fun removeTimeEntry(index: Int)
         fun startSession()
         fun stopSession()
+        fun unbindService()
         fun togglePlayButton()
         fun toggleStopButton()
         fun toggleAddButton(isEnabled: Boolean)

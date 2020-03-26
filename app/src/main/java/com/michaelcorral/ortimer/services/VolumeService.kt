@@ -42,20 +42,18 @@ class VolumeService : Service(), KoinComponent, VolumeServiceContract.View {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (intent?.action == "START") {
-            Timber.d("Start intent")
+        if (intent?.action == START) {
             setupMediaSessionCompat()
-            val notification = NotificationCompat.Builder(this, "OR TIMER CHANNEL ID")
-                .setContentTitle("OR Timer")
-                .setContentText("HEY")
-                .setSmallIcon(R.drawable.ic_launcher_background)
+            val notification = NotificationCompat.Builder(this, getString(R.string.ortimerapplication_notification_channel_id))
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.notification_content))
+                .setSmallIcon(R.drawable.all_image_timer_white_96dp)
                 .build()
 
             startForeground(1, notification)
         }
 
-        else if (intent?.action == "STOP") {
-            Timber.d("Stop intent")
+        else if (intent?.action == STOP) {
             presenter.saveSessionState(false)
             mediaSessionCompat.release()
             presenter.detachView()
@@ -85,7 +83,6 @@ class VolumeService : Service(), KoinComponent, VolumeServiceContract.View {
         ) {
             override fun onAdjustVolume(direction: Int) {
                 if (direction == 0) {
-                    Timber.d("Save Time Entry")
                     presenter.saveTimeEntry()
                 }
             }
@@ -111,5 +108,10 @@ class VolumeService : Service(), KoinComponent, VolumeServiceContract.View {
         presenter.detachView()
         listener = null
         Timber.i("onDestroy ${this::class.qualifiedName}")
+    }
+
+    companion object {
+        const val START = "start"
+        const val STOP = "stop"
     }
 }

@@ -16,9 +16,6 @@ import java.util.*
 
 class OrTimerApplication : Application() {
 
-    //TODO: REFACTOR
-    private val channelId = "OR TIMER CHANNEL ID"
-
     override fun onCreate() {
         super.onCreate()
 
@@ -57,10 +54,10 @@ class OrTimerApplication : Application() {
     private fun initializeNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = getString(R.string.app_name)
-            val descriptionText = getString(R.string.ortimerapplication_notification_description)
+            val description = getString(R.string.ortimerapplication_notification_description)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(channelId, name, importance)
-            channel.description = descriptionText
+            val channel = NotificationChannel(getString(R.string.ortimerapplication_notification_channel_id), name, importance)
+            channel.description = description
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }

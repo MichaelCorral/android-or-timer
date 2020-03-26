@@ -21,10 +21,7 @@ class MainScreenPresenter(
         // TODO: Refactor to factory or some kind of polymorphism
         toggleSession = repository.retrieveSessionState()
         if (toggleSession) {
-//            stopSession()
             startSession()
-//            view?.togglePlayButton()
-//            view?.toggleAddButton(true)
         }
 
         view?.initializeViews()
@@ -105,6 +102,7 @@ class MainScreenPresenter(
     }
 
     override fun detachView() {
+        view?.unbindService()
         view = null
         compositeDisposable.dispose()
     }

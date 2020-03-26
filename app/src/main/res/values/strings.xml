@@ -36,5 +36,9 @@
     <string name="about_or_timer_version">OR Timer Version</string>
     <string name="about_icons_by">Icons By</string>
     <string name="about_icons8_url">https://icons8.com</string>
+
     <string name="ortimerapplication_notification_description">OR Timer Notification</string>
+    <string name="ortimerapplication_notification_channel_id">OR Timer Channel ID</string>
+
+    <string name="notification_content">In Session…</string>
 </resources>
