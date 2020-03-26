@@ -154,7 +154,9 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
 
     private fun initializeVolumeService() {
         volumeServiceIntent = Intent(this, VolumeService::class.java)
-        startService(volumeServiceIntent)
+        val startIntent = Intent(this, VolumeService::class.java)
+        startIntent.action = VolumeService.START
+        startService(startIntent)
         applicationContext.bindService(
             volumeServiceIntent,
             serviceConnection,
@@ -163,8 +165,17 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
     }
 
     override fun stopSession() {
+        val stopIntent = Intent(this, VolumeService::class.java)
+        stopIntent.action = VolumeService.STOP
         if (isServiceBounded) {
+            unbindService()
             stopService(volumeServiceIntent)
+            startService(stopIntent)
+        }
+    }
+
+    override fun unbindService() {
+        if (isServiceBounded) {
             applicationContext.unbindService(serviceConnection)
             isServiceBounded = false
         }
