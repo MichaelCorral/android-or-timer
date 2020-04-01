@@ -177,9 +177,9 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
         val stopIntent = Intent(this, VolumeService::class.java)
         stopIntent.action = VolumeService.STOP
         if (isServiceBounded) {
+            startService(stopIntent)
             unbindService()
             stopService(volumeServiceIntent)
-            startService(stopIntent)
         }
     }
 

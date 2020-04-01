@@ -18,7 +18,6 @@ class VolumeServicePresenter(
 
     override fun setup() {
         saveSessionState(true)
-        view?.setupMediaSessionCompat()
     }
 
     override fun saveTimeEntry() {

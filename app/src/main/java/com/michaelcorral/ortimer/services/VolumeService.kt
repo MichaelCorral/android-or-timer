@@ -43,7 +43,7 @@ class VolumeService : Service(), KoinComponent, VolumeServiceContract.View {
         Timber.i("onCreate ${this::class.qualifiedName}")
     }
 
-    //TODO: REFACTOR FOR BETTER IMPLEMENTATION
+    //TODO: REFACTOR FOR BETTER IMPLEMENTATION - Maybe move to presenter some logic
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent?.action == START) {
 
@@ -75,12 +75,17 @@ class VolumeService : Service(), KoinComponent, VolumeServiceContract.View {
             listener = null
             stopForeground(true)
             stopSelf()
+            Timber.d("STOPPED")
         }
 
         return START_STICKY
     }
 
     override fun setupMediaSessionCompat() {
+        if (::mediaSessionCompat.isInitialized) {
+            return
+        }
+
         mediaSessionCompat = MediaSessionCompat(this, this::class.qualifiedName)
         mediaSessionCompat.setPlaybackState(
             PlaybackStateCompat.Builder()
