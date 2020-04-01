@@ -35,6 +35,7 @@
     <dimen name="dp_56">56dp</dimen>
     <dimen name="dp_58">58dp</dimen>
     <dimen name="dp_60">60dp</dimen>
+    <dimen name="dp_64">64dp</dimen>
     <dimen name="dp_80">80dp</dimen>
     <dimen name="dp_96">96dp</dimen>
     <dimen name="dp_150">150dp</dimen>
@@ -78,6 +79,7 @@
     <dimen name="sp_60">60sp</dimen>
 
     <dimen name="toolbar_height">@dimen/dp_56</dimen>
+    <dimen name="notification_collapsed_height">@dimen/dp_64</dimen>
     <dimen name="icon_size">@dimen/dp_40</dimen>
 
 </resources>
