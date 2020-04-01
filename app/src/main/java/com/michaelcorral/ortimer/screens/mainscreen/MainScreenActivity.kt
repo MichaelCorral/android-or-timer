@@ -21,7 +21,6 @@ import com.michaelcorral.ortimer.services.VolumeServiceListener
 import kotlinx.android.synthetic.main.mainscreen_activity.*
 import org.koin.androidx.scope.currentScope
 import org.koin.core.parameter.parametersOf
-import timber.log.Timber
 
 class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeServiceListener {
 
@@ -130,6 +129,16 @@ class MainScreenActivity : OrTimerActivity(), MainScreenContract.View, VolumeSer
     override fun toggleStopButton() {
         mainScreenTextViewStartSession.text = getString(R.string.mainscreen_start_a_session)
         mainScreenButtonPlay.background = getDrawable(R.drawable.all_shape_play_button)
+    }
+
+    override fun toggleEmptyState(isEnabled: Boolean) {
+        if (isEnabled) {
+            mainScreenRecyclerView.visibility = View.GONE
+            mainScreenConstraintLayoutEmptyState.visibility = View.VISIBLE
+        } else {
+            mainScreenRecyclerView.visibility = View.VISIBLE
+            mainScreenConstraintLayoutEmptyState.visibility = View.GONE
+        }
     }
 
     override fun startSession() {
