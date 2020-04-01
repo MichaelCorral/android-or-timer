@@ -1,11 +1,13 @@
 package com.michaelcorral.ortimer.services
 
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.widget.RemoteViews
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.media.VolumeProviderCompat
@@ -41,19 +43,32 @@ class VolumeService : Service(), KoinComponent, VolumeServiceContract.View {
         Timber.i("onCreate ${this::class.qualifiedName}")
     }
 
+    //TODO: REFACTOR FOR BETTER IMPLEMENTATION
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent?.action == START) {
+
+            //Stopping a service from the notification
+            val stopIntent = Intent(this, VolumeService::class.java)
+            stopIntent.action = STOP
+            val stopSessionIntent = PendingIntent.getService(this, 1, stopIntent, 0)
+
             setupMediaSessionCompat()
+
+            val collapsedView = RemoteViews(packageName, R.layout.notification_layout_collapsed)
+
+            collapsedView.setOnClickPendingIntent(R.id.notificationLayoutLinearLayoutEndSessionContainer, stopSessionIntent)
+
             val notification = NotificationCompat.Builder(this, getString(R.string.ortimerapplication_notification_channel_id))
-                .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.notification_content))
                 .setSmallIcon(R.drawable.all_image_timer_white_96dp)
+                .setCustomContentView(collapsedView)
                 .build()
 
             startForeground(1, notification)
         }
 
         else if (intent?.action == STOP) {
+            listener?.toggleStopButton()
+            listener?.toggleAddButton(false)
             presenter.saveSessionState(false)
             mediaSessionCompat.release()
             presenter.detachView()

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/notificationLayoutImageViewIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/all_image_timer_white_96dp" />
+
+    <TextView
+        android:id="@+id/notificationLayoutTextViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OR Timer"
+        android:textColor="@color/colorWhite"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@+id/notificationLayoutImageViewIcon"/>
+
+    <TextView
+        android:id="@+id/notificationLayoutTextViewContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="In Session..."
+        android:textColor="@color/colorWhite"
+        android:layout_marginStart="8dp"
+        android:layout_below="@+id/notificationLayoutTextViewTitle"
+        android:layout_toEndOf="@+id/notificationLayoutImageViewIcon"/>
+
+    <LinearLayout
+        android:id="@+id/notificationLayoutLinearLayoutEndSessionContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/notificationLayoutTextViewTitle">
+
+        <TextView
+            android:id="@+id/notificationLayoutTextViewEndSession"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="End Session"
+            android:textColor="@color/colorWhite"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="@dimen/dp_8"/>
+
+        <Button
+            android:id="@+id/notificationLayoutButtonEndSession"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:textAllCaps="false"
+            android:background="@color/colorFireEngineRed" />
+    </LinearLayout>
+
+
+
+</RelativeLayout>
