@@ -38,6 +38,7 @@ class MainScreenPresenter(
 
     private fun onRetrieveTimeEntriesSuccess(timeEntries: List<TimeEntry>) {
         view?.displayTimeEntries(timeEntries)
+        view?.toggleEmptyState(timeEntries.isEmpty())
     }
 
     private fun onRetrieveTimeEntriesFailed() {
@@ -75,6 +76,7 @@ class MainScreenPresenter(
         view?.startSession()
         view?.togglePlayButton()
         view?.toggleAddButton(true)
+        view?.toggleEmptyState(true)
     }
 
     private fun stopSession() {
